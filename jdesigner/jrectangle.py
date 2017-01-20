@@ -28,6 +28,32 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
             handle = h["item"]
             handle.currentPen.setColor(QtGui.QColor(0, 0, 0))
 
+    @classmethod
+    def load(cls, s, info_dock=None, viewbox=None):
+        if "*JRectangle" not in s:
+            print("Error reading a rectangle from a string %s" % s)
+
+        s = s.replace("*JRectangle", "")
+
+        if s[0] != "{" or s[-1] != "}":
+            print("Error the string is in the wrong format")
+
+        dict = eval(s)
+        return cls(dict["pos"], dict["size"], info_dock=info_dock,
+                   viewbox=viewbox)
+
+
+
+    def save(self, file):
+
+        dict = {}
+        dict["color"] = self._color
+        dict["pos"] = [self.pos().x(), self.pos().y()]
+        dict["size"] = [self.size().x(), self.size().y()]
+
+        file.write("*JRectangle\n")
+        file.write(str(dict) + "\n")
+
     def _build_menu(self):
         menu = QtGui.QMenu()
         menu.setTitle("Rectangle")

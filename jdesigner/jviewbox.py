@@ -8,7 +8,7 @@ from .jrectangle import Jrectangle
 from .jpolyline import JpolyLine
 from .jtext import Jtext
 from .jtext import JtextROI
-
+from .io import split_strings
 
 class JviewBox(ViewBox):
 
@@ -179,9 +179,32 @@ class JviewBox(ViewBox):
                                                       "Files (*.jdes)")
         if file_name[-5:] != ".jdes":
             file_name += ".jdes"
-        print(file_name)
-        print(self.addedItems)
-        print("Saving scene")
+
+        # add label
+        with open(file_name, "w") as file:
+            for item in self.addedItems:
+                if type(item) is Jtext:
+                    continue
+                else:
+                    item.save(file)
+
+    def load(self):
+        file_name = QtGui.QFileDialog.getOpenFileName(None,
+                                                      "Load File",
+                                                      "",
+                                                      "Files (*.jdes)")
+        if file_name[-5:] != ".jdes":
+            print("Wrong format, cannot open file %s", file_name)
+            # add label
+
+        strings = split_strings(file_name)
+        print(strings)
+
+        for s in strings:
+            if "*JRectangle" in s:
+                rectangle = Jrectangle.load(s, info_dock=self.info_dock,
+                                            viewbox=self)
+                self.addItem(rectangle)
 
     def _build_menu(self):
         menu = QtGui.QMenu()

@@ -100,7 +100,7 @@ class Jwindow:
         self.viewBox.save_as()
 
     def load(self):
-        print("Load")
+        self.viewBox.load()
 
     def load_composition(self):
         print("Load composition")

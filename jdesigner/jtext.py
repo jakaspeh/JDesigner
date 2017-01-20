@@ -62,6 +62,9 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self._display_info_dock()
         JChooseColor.__init__(self)
 
+    def save(self, file):
+        print("Saving text...")
+
     def _build_menu(self):
         menu = QtGui.QMenu()
         menu.setTitle("Text")

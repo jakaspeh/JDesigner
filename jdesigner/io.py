@@ -1,6 +1,28 @@
 from .bezier_curve import BezierCurve
 
 
+def split_strings(file_name, split="*"):
+
+    strings = []
+    s = ""
+    with open(file_name) as file:
+        for line in file:
+
+            if len(line) == 0:
+                continue
+
+            if line[0] == split:
+                if s != "":
+                    strings.append(s)
+                    s = ""
+            line = line.strip()
+            s += line
+
+    strings.append(s)
+
+    return strings
+
+
 def string_to_curve(s):
     lines = s.split("\n")
 

@@ -42,6 +42,9 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         #     handle = h["item"]
         #    handle.currentPen.setColor(QtGui.QColor(255, 0, 0))
 
+    def save(self, file):
+        print("Saving polyline")
+
     def get_points(self):
         points = []
         for p in self.handles:

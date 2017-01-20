@@ -36,6 +36,9 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         JRemoveItem.__init__(self, viewbox)
         self._display_info_dock()
 
+    def save(self, file):
+        print("Saving bezier curve")
+
     def getControlPoints(self):
 
         controlPoints = []

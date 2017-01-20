@@ -7,6 +7,7 @@ from pyqtgraph import LayoutWidget
 from .utils import delete_content
 
 from .color import JChooseColor
+from .color import setup_color
 
 from .remove_item import JRemoveItem
 
@@ -38,21 +39,21 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         if s[0] != "{" or s[-1] != "}":
             print("Error the string is in the wrong format")
 
-        dict = eval(s)
-        return cls(dict["pos"], dict["size"], info_dock=info_dock,
-                   viewbox=viewbox)
-
-
+        data = eval(s)
+        rectangle = cls(data["pos"], data["size"], info_dock=info_dock,
+                        viewbox=viewbox)
+        setup_color(rectangle, data["color"])
+        return rectangle
 
     def save(self, file):
 
-        dict = {}
-        dict["color"] = self._color
-        dict["pos"] = [self.pos().x(), self.pos().y()]
-        dict["size"] = [self.size().x(), self.size().y()]
+        data = {}
+        data["color"] = self._color
+        data["pos"] = [self.pos().x(), self.pos().y()]
+        data["size"] = [self.size().x(), self.size().y()]
 
         file.write("*JRectangle\n")
-        file.write(str(dict) + "\n")
+        file.write(str(data) + "\n")
 
     def _build_menu(self):
         menu = QtGui.QMenu()

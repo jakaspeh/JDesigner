@@ -6,30 +6,25 @@ class JChooseColor:
 
     def __init__(self):
         self._set_black_color()
-        # self._color_label = None
 
     def _set_red_color(self):
         self._color = "red"
         self._color_rgb = (255, 0, 0)
-        # self.update_color_label()
         self.setPen(color="r")
 
     def _set_blue_color(self):
         self._color = "blue"
         self._color_rgb = (0, 0, 255)
-        #self.update_color_label()
         self.setPen(color="b")
 
     def _set_green_color(self):
         self._color = "green"
         self._color_rgb = (0, 255, 0)
-        #self.update_color_label()
         self.setPen(color="g")
 
     def _set_white_color(self):
         self._color = "white"
         self._color_rgb = (255, 255, 255)
-        #self.update_color_label()
         self.setPen(color="w")
 
     def _set_black_color(self):
@@ -37,14 +32,9 @@ class JChooseColor:
         self._color_rgb = (0, 0, 0)
         self.setPen(color=(0, 0, 0))
 
-    #def update_color_label(self):
-    #    self._color_label.setText("Current color: " + self._color)
-
     def get_color_dock_widget(self):
 
         layout = LayoutWidget()
-        # self._color_label = QtGui.QLabel("Current color: " + self._color)
-        # layout.addWidget(self._color_label, row=0, col=0, colspan=3)
 
         label2 = QtGui.QLabel("Color:")
         layout.addWidget(label2, row=0, col=0, colspan=3)
@@ -77,3 +67,19 @@ class JChooseColor:
         layout.layout.setContentsMargins(0, 0, 0, 5)
 
         return layout
+
+
+def setup_color(obj, color):
+
+    if color == "red":
+        obj._set_red_color()
+    elif color == "blue":
+        obj._set_blued_color()
+    elif color == "green":
+        obj._set_green_color()
+    elif color == "white":
+        obj._set_white_color()
+    elif color == "black":
+        obj._set_black_color()
+    else:
+        raise ValueError("Unexisting color: %s" % color)

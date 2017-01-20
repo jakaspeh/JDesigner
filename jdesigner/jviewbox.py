@@ -3,19 +3,18 @@ from pyqtgraph import QtCore
 from pyqtgraph import QtGui
 
 from .bezier_curve import BezierCurve
-from .items import Items
 from .jrectangle import Jrectangle
 from .jpolyline import JpolyLine
 from .jtext import Jtext
 from .jtext import JtextROI
 from .io import split_strings
 
+
 class JviewBox(ViewBox):
 
     def __init__(self, label, info_dock, **kargs):
         ViewBox.__init__(self, **kargs)
         self.label = label
-        self.items = Items()
         self.info_dock = info_dock
 
         self._creating_curve = False
@@ -107,8 +106,6 @@ class JviewBox(ViewBox):
 
             rectangle = Jrectangle(p0, size, info_dock=self.info_dock, viewbox=self)
             self.addItem(rectangle)
-            self.items.add_item(rectangle)
-
             self._reset_private_variables()
 
     def _creating_polyline_press_event(self, event):
@@ -122,8 +119,6 @@ class JviewBox(ViewBox):
             self.label.setText("New polyline created.")
             polyline = JpolyLine(self._polyline_points, info_dock=self.info_dock, viewbox=self)
             self.addItem(polyline)
-            self.items.add_item(polyline)
-
             self._reset_private_variables()
 
     def _creating_curve_press_event(self, event):
@@ -140,8 +135,6 @@ class JviewBox(ViewBox):
 
             curve = BezierCurve(self._curve_control_points, info_dock=self.info_dock, viewbox=self)
             self.addItem(curve)
-            self.items.add_item(curve)
-
             self._reset_private_variables()
 
     def _creating_text_press_event(self, event):
@@ -152,12 +145,8 @@ class JviewBox(ViewBox):
 
         text = Jtext("Text")
         self.addItem(text)
-        self.items.add_item(text)
-
         text_roi = JtextROI(point, self.viewRange(), text, info_dock=self.info_dock, viewbox=self)
         self.addItem(text_roi)
-        self.items.add_item(text_roi)
-
         self._reset_private_variables()
 
     def _reset_private_variables(self):

@@ -145,7 +145,7 @@ class JviewBox(ViewBox):
 
         text = Jtext("Text")
         self.addItem(text)
-        text_roi = JtextROI(point, self.viewRange(), text, info_dock=self.info_dock, viewbox=self)
+        text_roi = JtextROI(point, text, info_dock=self.info_dock, viewbox=self, screen_bbox=self.viewRange())
         self.addItem(text_roi)
         self._reset_private_variables()
 

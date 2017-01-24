@@ -19,26 +19,31 @@ class Jtext(TextItem):
         TextItem.__init__(self, text, angle=0)
         self.setPos(0, 0)
 
-# try to update the viewbox for the changing of the text
 
 class JtextROI(ROI, JRemoveItem, JChooseColor):
 
-    def __init__(self, position, screen_bbox, text, info_dock=None, viewbox=None):
+    def __init__(self, position, text, info_dock=None, viewbox=None,
+                 screen_bbox=None, character_width=None,
+                 character_height=None, size=10, transpose=False):
 
         ROI.__init__(self, position, size=[1, 1])
         self.handlePen.setColor(QtGui.QColor(0, 0, 0))
 
-        dx = screen_bbox[0][1] - screen_bbox[0][0]
-        dy = screen_bbox[1][1] - screen_bbox[1][0]
-        self._characted_width = dx * 0.01
-        self._characted_height = dy * 0.04
+        if screen_bbox is not None:
+            dx = screen_bbox[0][1] - screen_bbox[0][0]
+            dy = screen_bbox[1][1] - screen_bbox[1][0]
+            self._characted_width = dx * 0.01
+            self._characted_height = dy * 0.04
+        elif character_height is not None and character_width is not None:
+            self._characted_width = character_width
+            self._characted_height = character_height
 
         self.text = text
 
         self.width = None
         self.height = None
 
-        self.size = 10
+        self.size = size
         self._bbox = None
         self._bigger_bbox = None
         self.text.setParentItem(self)
@@ -46,7 +51,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self.info_dock = info_dock
 
         self._menu = self._build_menu()
-        self._transpose = False
+        self._transpose = transpose
 
         JRemoveItem.__init__(self, viewbox)
         self._viewbox = viewbox
@@ -58,12 +63,25 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self._text_line_edit = None
         self._text_spin_box = None
 
+        JChooseColor.__init__(self)
         self._set_width_and_height()
         self._display_info_dock()
-        JChooseColor.__init__(self)
+
+    # write loading method for text
 
     def save(self, file):
-        print("Saving text...")
+
+        data = {}
+        data["position"] = [self.pos().x(), self.pos().y()]
+        data["text"] = self.text.textItem.toPlainText()
+        data["character height"] = self._characted_height
+        data["character width"] = self._characted_width
+        data["size"] = self.size
+        data["transpose"] = self._transpose
+        data["color"] = self._color
+
+        file.write("*JText\n")
+        file.write(str(data) + "\n")
 
     def _build_menu(self):
         menu = QtGui.QMenu()

@@ -10,6 +10,7 @@ from .utils import construct_arrow
 from .utils import delete_content
 
 from .color import JChooseColor
+from .color import setup_color
 
 from .arrow import JArrowDock
 
@@ -17,7 +18,8 @@ from .remove_item import JRemoveItem
 
 class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
 
-    def __init__(self, positions, info_dock=None, viewbox=None):
+    def __init__(self, positions, info_dock=None, viewbox=None,
+                 arrow=False, arrow_start=0.9, arrow_width=0.5):
         pos = [0, 0]
         ROI.__init__(self, pos, size=[1, 1])
 
@@ -33,17 +35,45 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         self._arrow = False
 
         JChooseColor.__init__(self)
-        JArrowDock.__init__(self)
+        JArrowDock.__init__(self, arrow, start=arrow_start, width=arrow_width)
         JRemoveItem.__init__(self, viewbox)
 
         self._display_info_dock()
 
-        #for h in self.handles:
-        #     handle = h["item"]
-        #    handle.currentPen.setColor(QtGui.QColor(255, 0, 0))
+    @classmethod
+    def load(cls, s, info_dock=None, viewbox=None):
+        if "*JPolyline" not in s:
+            print("Error reading a Bezier curve from string %s" % s)
+
+        s = s.replace("*JPolyline", "")
+
+        if s[0] != "{" or s[-1] != "}":
+            print("Error the string is in the wrong format.")
+
+        data = eval(s)
+        polyline = cls(data["control points"], info_dock=info_dock,
+                       viewbox=viewbox, arrow=data["arrow"],
+                       arrow_start=data["arrow start"],
+                       arrow_width=data["arrow width"])
+        setup_color(polyline, data["color"])
+        return polyline
+
 
     def save(self, file):
-        print("Saving polyline")
+
+        data = {}
+        points = self.get_points()
+        dx = self.pos().x()
+        dy = self.pos().y()
+        points = [[p[0] + dx, p[1] + dy] for p in points]
+        data["control points"] = points
+        data["color"] = self._color
+        data["arrow"] = self._arrow
+        data["arrow start"] = self._arrow_start
+        data["arrow width"] = self._arrow_width
+
+        file.write("*JPolyline\n")
+        file.write(str(data) + "\n")
 
     def get_points(self):
         points = []

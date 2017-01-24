@@ -187,13 +187,17 @@ class JviewBox(ViewBox):
             # add label
 
         strings = split_strings(file_name)
-        print(strings)
+        #print(strings)
 
         for s in strings:
             if "*JRectangle" in s:
                 rectangle = Jrectangle.load(s, info_dock=self.info_dock,
                                             viewbox=self)
                 self.addItem(rectangle)
+            if "JBezierCurve" in s:
+                curve = BezierCurve.load(s, info_dock=self.info_dock,
+                                         viewbox=self)
+                self.addItem(curve)
 
     def _build_menu(self):
         menu = QtGui.QMenu()

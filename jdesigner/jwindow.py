@@ -141,7 +141,6 @@ class Jwindow:
             self.add_curve(curve)
 
     def clear(self):
-        self.viewBox.items.clear()
         self.viewBox.clear()
         # print("Clear")
         # for curve in self.scene.items():

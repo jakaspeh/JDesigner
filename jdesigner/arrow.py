@@ -4,10 +4,10 @@ from pyqtgraph import LayoutWidget
 
 class JArrowDock:
 
-    def __init__(self):
-        self._arrow = False
-        self._arrow_start = 0.9
-        self._arrow_width = 0.5
+    def __init__(self, arrow=False, start=0.9, width=0.5):
+        self._arrow = arrow
+        self._arrow_start = start
+        self._arrow_width = width
 
     def get_arrow_dock_widget(self):
         layout = LayoutWidget()
@@ -66,5 +66,3 @@ class JArrowDock:
         if b != self._arrow:
             self._arrow = b
             self.update()
-
-

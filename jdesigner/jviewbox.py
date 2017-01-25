@@ -202,6 +202,10 @@ class JviewBox(ViewBox):
                 polyline = JpolyLine.load(s, info_dock=self.info_dock,
                                           viewbox=self)
                 self.addItem(polyline)
+            if "*JText" in s:
+                text_roi = JtextROI.load(s, info_dock=self.info_dock,
+                                         viewbox=self)
+                self.addItem(text_roi)
 
     def _build_menu(self):
         menu = QtGui.QMenu()

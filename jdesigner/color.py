@@ -76,7 +76,7 @@ def setup_color(obj, color):
     if color == "red":
         obj._set_red_color()
     elif color == "blue":
-        obj._set_blued_color()
+        obj._set_blue_color()
     elif color == "green":
         obj._set_green_color()
     elif color == "white":

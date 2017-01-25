@@ -8,6 +8,7 @@ from .utils import delete_content
 from .utils import get_bigger_bbox
 
 from .color import JChooseColor
+from .color import setup_color
 
 from .remove_item import JRemoveItem
 
@@ -22,6 +23,7 @@ class Jtext(TextItem):
 
 class JtextROI(ROI, JRemoveItem, JChooseColor):
 
+    # delete character width, character height
     def __init__(self, position, text, info_dock=None, viewbox=None,
                  screen_bbox=None, character_width=None,
                  character_height=None, size=10, transpose=False):
@@ -51,7 +53,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self.info_dock = info_dock
 
         self._menu = self._build_menu()
-        self._transpose = transpose
+        self._transpose = False
 
         JRemoveItem.__init__(self, viewbox)
         self._viewbox = viewbox
@@ -68,9 +70,34 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self._display_info_dock()
         self._set_black_color()
 
+        self._changed_size()
+        if transpose:
+            self._toggle_transpose()
+            self._transpose_check_box.setChecked(transpose)
 
+        # write loading method for text
 
-    # write loading method for text
+    @classmethod
+    def load(cls, s, info_dock=None, viewbox=None):
+        if "*JText" not in s:
+            print("Error reading a Text from string %s" % s)
+
+        s = s.replace("*JText", "")
+
+        if s[0] != "{" or s[-1] != "}":
+            print("Error the string is in the wrong format")
+
+        data = eval(s)
+
+        text = Jtext(data["text"])
+        viewbox.addItem(text)
+        text_roi = JtextROI(data["position"], text, info_dock=info_dock,
+                            viewbox=viewbox,
+                            screen_bbox=viewbox.viewRange(),
+                            size=data["size"],
+                            transpose=data["transpose"])
+        setup_color(text_roi, data["color"])
+        return text_roi
 
     def save(self, file):
 
@@ -105,7 +132,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
             self.text.textItem.setRotation(0)
 
         self._build_bbox()
-        view_box = self.getViewBox()
+        view_box = self.viewbox
         view_box.update()
 
     def _set_width_and_height(self):

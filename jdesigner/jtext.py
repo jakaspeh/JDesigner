@@ -66,6 +66,9 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         JChooseColor.__init__(self)
         self._set_width_and_height()
         self._display_info_dock()
+        self._set_black_color()
+
+
 
     # write loading method for text
 

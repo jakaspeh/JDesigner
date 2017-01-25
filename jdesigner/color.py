@@ -7,7 +7,7 @@ class JChooseColor:
     def __init__(self):
         self._color = None
         self._color_rgb = None
-        self._set_black_color()
+        #self._set_black_color()
 
     def _set_red_color(self):
         self._color = "red"

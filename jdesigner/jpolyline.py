@@ -35,6 +35,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         self._arrow = False
 
         JChooseColor.__init__(self)
+        self._set_black_color()
         JArrowDock.__init__(self, arrow, start=arrow_start, width=arrow_width)
         JRemoveItem.__init__(self, viewbox)
 

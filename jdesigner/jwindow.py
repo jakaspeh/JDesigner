@@ -65,8 +65,6 @@ class Jwindow:
         button_add_line = QtGui.QPushButton("Add polyline")
         button_add_square = QtGui.QPushButton("Add rectangle")
         button_add_text = QtGui.QPushButton("Add text")
-        button_save = QtGui.QPushButton("Save")
-        button_load = QtGui.QPushButton("Load")
         button_clear = QtGui.QPushButton("Clear")
         vertical_spacer = QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Minimum,
                                             QtGui.QSizePolicy.Expanding)
@@ -77,9 +75,7 @@ class Jwindow:
         w1.addWidget(button_add_line, row=1, col=0)
         w1.addWidget(button_add_square, row=2, col=0)
         w1.addWidget(button_add_text, row=3, col = 0)
-        w1.addWidget(button_save, row=4, col=0)
-        w1.addWidget(button_load, row=5, col=0)
-        w1.addWidget(button_clear, row=6, col=0)
+        w1.addWidget(button_clear, row=4, col=0)
         w1.layout.addItem(vertical_spacer)
 
         leftDock.addWidget(w1)
@@ -90,8 +86,6 @@ class Jwindow:
         button_add_line.clicked.connect(self.add_polyline)
         button_add_square.clicked.connect(self.add_rectangle)
         button_add_text.clicked.connect(self.add_text)
-        button_save.clicked.connect(self.save_scene)
-        button_load.clicked.connect(self.load_scene)
         button_clear.clicked.connect(self.clear)
 
         self.label.setText("JDesigner started...")
@@ -127,25 +121,21 @@ class Jwindow:
         self.label.setText("Adding a text... Click to add a text...")
         self.viewBox.add_text()
 
-    def save_scene(self):
-        # print("Save scene")
-        file_name = QtGui.QFileDialog.getSaveFileName()
-        # print("File name: ", file_name)
-        self.items.save(file_name)
-
-    def load_scene(self):
-        # print("Load scene")
-        file_name = QtGui.QFileDialog.getOpenFileName()
-        curves = read_curves(file_name)
-        for curve in curves:
-            self.add_curve(curve)
+    # def save_scene(self):
+    #     # print("Save scene")
+    #     file_name = QtGui.QFileDialog.getSaveFileName()
+    #     # print("File name: ", file_name)
+    #     self.items.save(file_name)
+    #
+    # def load_scene(self):
+    #     # print("Load scene")
+    #     file_name = QtGui.QFileDialog.getOpenFileName()
+    #     curves = read_curves(file_name)
+    #     for curve in curves:
+    #         self.add_curve(curve)
 
     def clear(self):
-        for item in self.viewBox.addedItems:
-            self.viewBox.removeItem(item)
-        # print("Clear")
-        # for curve in self.scene.items():
-        #     curve.clear_points()
+        self.viewBox.clear()
 
     def show(self):
         self.win.show()

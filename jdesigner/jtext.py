@@ -23,22 +23,16 @@ class Jtext(TextItem):
 
 class JtextROI(ROI, JRemoveItem, JChooseColor):
 
-    # delete character width, character height
     def __init__(self, position, text, info_dock=None, viewbox=None,
-                 screen_bbox=None, character_width=None,
-                 character_height=None, size=10, transpose=False):
+                 screen_bbox=None, size=10, transpose=False):
 
         ROI.__init__(self, position, size=[1, 1])
         self.handlePen.setColor(QtGui.QColor(0, 0, 0))
 
-        if screen_bbox is not None:
-            dx = screen_bbox[0][1] - screen_bbox[0][0]
-            dy = screen_bbox[1][1] - screen_bbox[1][0]
-            self._characted_width = dx * 0.01
-            self._characted_height = dy * 0.04
-        elif character_height is not None and character_width is not None:
-            self._characted_width = character_width
-            self._characted_height = character_height
+        dx = screen_bbox[0][1] - screen_bbox[0][0]
+        dy = screen_bbox[1][1] - screen_bbox[1][0]
+        self._characted_width = dx * 0.01
+        self._characted_height = dy * 0.04
 
         self.text = text
 
@@ -104,8 +98,6 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         data = {}
         data["position"] = [self.pos().x(), self.pos().y()]
         data["text"] = self.text.textItem.toPlainText()
-        data["character height"] = self._characted_height
-        data["character width"] = self._characted_width
         data["size"] = self.size
         data["transpose"] = self._transpose
         data["color"] = self._color

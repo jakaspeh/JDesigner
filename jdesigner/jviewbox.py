@@ -8,6 +8,9 @@ from .jpolyline import JpolyLine
 from .jtext import Jtext
 from .jtext import JtextROI
 from .io import split_strings
+from .io import get_open_filename
+from .io import construct_object
+from .utils import delete_content
 
 
 class JviewBox(ViewBox):
@@ -28,6 +31,9 @@ class JviewBox(ViewBox):
         self.setBackgroundColor((255, 255, 255))
         self.border.setColor(QtGui.QColor(255, 0, 0))
         self._menu = self._build_menu()
+
+    def delete_info_dock(self):
+        delete_content(self.info_dock)
 
     def mouseClickEvent(self, ev):
         if ev.button() == QtCore.Qt.RightButton:
@@ -178,34 +184,17 @@ class JviewBox(ViewBox):
                     item.save(file)
 
     def load(self):
-        file_name = QtGui.QFileDialog.getOpenFileName(None,
-                                                      "Load File",
-                                                      "",
-                                                      "Files (*.jdes)")
-        if file_name[-5:] != ".jdes":
-            print("Wrong format, cannot open file %s", file_name)
-            # add label
-
+        file_name = get_open_filename()
         strings = split_strings(file_name)
-        #print(strings)
 
         for s in strings:
-            if "*JRectangle" in s:
-                rectangle = Jrectangle.load(s, info_dock=self.info_dock,
-                                            viewbox=self)
-                self.addItem(rectangle)
-            if "*JBezierCurve" in s:
-                curve = BezierCurve.load(s, info_dock=self.info_dock,
-                                         viewbox=self)
-                self.addItem(curve)
-            if "*JPolyline" in s:
-                polyline = JpolyLine.load(s, info_dock=self.info_dock,
-                                          viewbox=self)
-                self.addItem(polyline)
-            if "*JText" in s:
-                text_roi = JtextROI.load(s, info_dock=self.info_dock,
-                                         viewbox=self)
-                self.addItem(text_roi)
+
+            object = construct_object(s, self)
+            if object is not None:
+                self.addItem(object)
+
+    def load_as_composition(self):
+        print("Jaka")
 
     def _build_menu(self):
         menu = QtGui.QMenu()

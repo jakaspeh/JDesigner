@@ -1,3 +1,8 @@
+from pyqtgraph import QtGui
+
+from .jpolyline import JpolyLine
+from .jtext import JtextROI
+from .jrectangle import Jrectangle
 from .bezier_curve import BezierCurve
 
 
@@ -75,3 +80,31 @@ def curve_to_string(curve):
         s += str(x) + " " + str(y) + "\n"
 
     return s
+
+
+def get_open_filename():
+    file_name = QtGui.QFileDialog.getOpenFileName(None,
+                                                  "Load File",
+                                                  "",
+                                                  "Files (*.jdes)")
+    if file_name[-5:] != ".jdes":
+        print("Wrong format, cannot open file %s", file_name)
+        #TODO add label
+
+    return file_name
+
+def construct_object(string, viewbox):
+    object = None
+    if "*JRectangle" in string:
+        object = Jrectangle.load(string, info_dock=viewbox.info_dock,
+                                 viewbox=viewbox)
+    if "*JBezierCurve" in string:
+        object = BezierCurve.load(string, info_dock=viewbox.info_dock,
+                                  viewbox=viewbox)
+    if "*JPolyline" in string:
+        object = JpolyLine.load(string, info_dock=viewbox.info_dock,
+                                viewbox=viewbox)
+    if "*JText" in string:
+        object = JtextROI.load(string, info_dock=viewbox.info_dock,
+                               viewbox=viewbox)
+    return object

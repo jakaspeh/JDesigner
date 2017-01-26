@@ -97,7 +97,7 @@ class Jwindow:
         self.viewBox.load()
 
     def load_composition(self):
-        print("Load composition")
+        self.viewBox.load_as_composition()
 
     def export(self):
         print("Export")
@@ -136,6 +136,7 @@ class Jwindow:
 
     def clear(self):
         self.viewBox.clear()
+        self.viewBox.delete_info_dock()
 
     def show(self):
         self.win.show()

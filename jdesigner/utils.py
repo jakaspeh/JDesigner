@@ -58,4 +58,3 @@ def get_bigger_bbox(bbox1, bbox2):
         return bbox1
 
     return bbox2
-

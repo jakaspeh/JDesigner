@@ -5,6 +5,7 @@ from pyqtgraph import QtGui
 from pyqtgraph import LayoutWidget
 
 from .utils import delete_content
+from .utils import compute_bbox
 
 from .color import JChooseColor
 from .color import setup_color
@@ -67,10 +68,25 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         if ev.button() == QtCore.Qt.RightButton:
             self._raise_menu(ev)
 
+    def _get_drawing_points(self):
+        low = [self.pos().x(), self.pos().y()]
+        disp = [self.size().x(), self.size().y()]
+
+        low_x = low[0]
+        low_y = low[1]
+        dx = disp[0]
+        dy = disp[1]
+
+        pts = [low, [low_x, low_y + dy], [low_x + dx, low_y + dy],
+               [low_x + dx, low_y], low]
+        return pts
+
+    def compute_bbox(self):
+        return compute_bbox(self._get_drawing_points())
+
     def paint(self, p, *args):
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)
-        self.currentPen.setWidth(2)
         p.setPen(self.currentPen)
         super().paint(p, *args)
 

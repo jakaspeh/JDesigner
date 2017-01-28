@@ -5,6 +5,7 @@ from pyqtgraph import QtGui
 from .bezier_curve import BezierCurve
 from .jrectangle import Jrectangle
 from .jpolyline import JpolyLine
+from .jcomposition import Jcomposition
 from .jtext import Jtext
 from .jtext import JtextROI
 from .io import split_strings
@@ -185,6 +186,8 @@ class JviewBox(ViewBox):
 
     def load(self):
         file_name = get_open_filename()
+        if file_name is None:
+            return
         strings = split_strings(file_name)
 
         for s in strings:
@@ -194,7 +197,25 @@ class JviewBox(ViewBox):
                 self.addItem(object)
 
     def load_as_composition(self):
-        print("Jaka")
+        file_name = get_open_filename()
+        strings = split_strings(file_name)
+
+        objects = []
+        for s in strings:
+            object = construct_object(s, self)
+            if type(object) is JtextROI:
+                # hack, otherwise pyqtgraph would like to use object.text
+                self.addItem(object)
+                self.removeItem(object)
+                print("Skipping text, can not have text in composition.")
+            else:
+                objects.append(object)
+
+        composition = Jcomposition(objects, info_dock=self.info_dock,
+                                   viewbox=self)
+        self.addItem(composition)
+
+
 
     def _build_menu(self):
         menu = QtGui.QMenu()

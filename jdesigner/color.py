@@ -7,32 +7,31 @@ class JChooseColor:
     def __init__(self):
         self._color = None
         self._color_rgb = None
-        #self._set_black_color()
 
     def _set_red_color(self):
         self._color = "red"
         self._color_rgb = (255, 0, 0)
-        self.setPen(color="r")
+        self.setPen(color="r", width=2)
 
     def _set_blue_color(self):
         self._color = "blue"
         self._color_rgb = (0, 0, 255)
-        self.setPen(color="b")
+        self.setPen(color="b", width=2)
 
     def _set_green_color(self):
         self._color = "green"
         self._color_rgb = (0, 255, 0)
-        self.setPen(color="g")
+        self.setPen(color="g", width=2)
 
     def _set_white_color(self):
         self._color = "white"
         self._color_rgb = (255, 255, 255)
-        self.setPen(color="w")
+        self.setPen(color="w", width=2)
 
     def _set_black_color(self):
         self._color = "black"
         self._color_rgb = (0, 0, 0)
-        self.setPen(color=(0, 0, 0))
+        self.setPen(color=(0, 0, 0), width=2)
 
     def get_color_dock_widget(self):
 

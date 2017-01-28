@@ -8,6 +8,7 @@ from .algorithms import degree_elevation
 
 from .utils import construct_arrow
 from .utils import delete_content
+from .utils import compute_bbox
 
 from .color import JChooseColor
 from .color import setup_color
@@ -84,6 +85,11 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
         return controlPoints
 
+    def compute_bbox(self):
+        points = self.getControlPoints()
+        points = [[x[0], x[1]] for x in points]
+        return compute_bbox(points)
+
     def shape(self):
         p = QtGui.QPainterPath()
         controlPoints = self.getControlPoints()
@@ -124,7 +130,6 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)
-        self.currentPen.setWidth(2)
         p.setPen(self.currentPen)
         for i in range(len(points) - 1):
             p.drawLine(points[i], points[i + 1])

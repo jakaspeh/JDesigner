@@ -8,6 +8,7 @@ from .utils import perpendicular
 from .utils import normalize
 from .utils import construct_arrow
 from .utils import delete_content
+from .utils import compute_bbox
 
 from .color import JChooseColor
 from .color import setup_color
@@ -27,8 +28,6 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
 
         for p in positions:
             self.addFreeHandle(p)
-
-        self.setPen(200, 200, 200)
 
         self.info_dock = info_dock
         self._menu = self._build_menu()
@@ -137,13 +136,17 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
             new_pts.extend(arrow_points)
             return new_pts
 
+    def compute_bbox(self):
+        points = self._get_drawing_points()
+        points = [[x[0], x[1]] for x in points]
+        return compute_bbox(points)
+
     def paint(self, p, *args):
 
         pts = self._get_drawing_points()
         points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)
-        self.currentPen.setWidth(2)
         p.setPen(self.currentPen)
         for i in range(len(points) - 1):
             p.drawLine(points[i], points[i + 1])

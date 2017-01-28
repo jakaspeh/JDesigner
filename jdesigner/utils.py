@@ -33,6 +33,24 @@ def delete_content(info_dock):
         item.widget().setParent(None)
 
 
+def compute_bbox(points):
+    x, y = points[0]
+    bbox = [[x, y], [x, y]]
+    # print("\nStart")
+    # print(bbox)
+    # print(points)
+    for point in points[1:]:
+        if point[0] < bbox[0][0]:
+            bbox[0][0] = point[0]
+        if point[1] < bbox[0][1]:
+            bbox[0][1] = point[1]
+        if bbox[1][0] < point[0]:
+            bbox[1][0] = point[0]
+        if bbox[1][1] < point[1]:
+            bbox[1][1] = point[1]
+        #print(" For", bbox)
+    return bbox
+
 def get_bigger_bbox(bbox1, bbox2):
     """
     :param bbox1:

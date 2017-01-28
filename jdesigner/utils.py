@@ -51,6 +51,46 @@ def compute_bbox(points):
         #print(" For", bbox)
     return bbox
 
+
+def _compute_parameter(a, b, point):
+    """
+    :param a: [float, float]
+    :param b: [float, float]
+    :param point: [float, float]
+    :return: t, such that point = a * (1 - t) + b * t
+    """
+    parameter0 = (point[0] - a[0]) / (b[0] - a[0])
+    parameter1 = (point[1] - a[1]) / (b[1] - a[1])
+    return [parameter0, parameter1]
+
+
+def _compute_point(a, b, weight):
+    new_point = [None, None]
+    new_point[0] = a[0] * (1 - weight[0]) + b[0] * weight[0]
+    new_point[1] = a[1] * (1 - weight[1]) + b[1] * weight[1]
+    return new_point
+
+
+def compute_weights(bbox, points):
+    weights = []
+    a = bbox[0]
+    b = bbox[1]
+    for point in points:
+        parameter = _compute_parameter(a, b, point)
+        weights.append(parameter)
+    return weights
+
+
+def compute_points(bbox, weights):
+    points = []
+    a = bbox[0]
+    b = bbox[1]
+    for weight in weights:
+        point = _compute_point(a, b, weight)
+        points.append(point)
+    return points
+
+
 def get_bigger_bbox(bbox1, bbox2):
     """
     :param bbox1:

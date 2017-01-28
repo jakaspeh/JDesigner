@@ -2,11 +2,11 @@ from pyqtgraph import ROI
 from pyqtgraph import QtGui
 from pyqtgraph import QtCore
 
-from .color import JChooseColor
 from .utils import compute_bbox
+from .utils import compute_weights
+from .utils import compute_points
 
-
-class Jcomposition(ROI, JChooseColor):
+class Jcomposition(ROI):
 
     def __init__(self, objects, info_dock=None, viewbox=None):
 
@@ -24,10 +24,18 @@ class Jcomposition(ROI, JChooseColor):
         for corner in bbox:
             self.addFreeHandle(corner)
 
-        JChooseColor.__init__(self)
+        self.weights = None
+        self.set_weights()
+
+    def set_weights(self):
+        bbox = self.get_bbox()
+        self.weights = []
+        for obj in self.objects:
+            points = obj._get_drawing_points()
+            weights_of_points = compute_weights(bbox, points)
+            self.weights.append(weights_of_points)
 
     def compute_bbox(self):
-
         points = []
         for obj in self.objects:
             bbox = obj.compute_bbox()
@@ -36,8 +44,13 @@ class Jcomposition(ROI, JChooseColor):
 
         return compute_bbox(points)
 
+    def get_bbox(self):
+        handle0 = self.handles[0]["pos"]
+        handle1 = self.handles[1]["pos"]
+        return [[handle0.x(), handle0.y()], [handle1.x(), handle1.y()]]
+
     def shape(self):
-        bbox = self.compute_bbox()
+        bbox = self.get_bbox()
         x_1, y_1 = bbox[0]
         x_2, y_2 = bbox[1]
 
@@ -56,11 +69,10 @@ class Jcomposition(ROI, JChooseColor):
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)
 
-        for obj in self.objects:
+        bbox = self.get_bbox()
+        for obj, w in zip(self.objects, self.weights):
             p.setPen(obj.currentPen)
-            pts = obj._get_drawing_points()
+            pts = compute_points(bbox, w)
             points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
             for i in range(len(points) - 1):
                 p.drawLine(points[i], points[i + 1])
-
-

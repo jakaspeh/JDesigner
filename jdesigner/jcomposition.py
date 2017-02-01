@@ -1,12 +1,17 @@
 from pyqtgraph import ROI
 from pyqtgraph import QtGui
 from pyqtgraph import QtCore
+from pyqtgraph import LayoutWidget
 
 from .utils import compute_bbox
 from .utils import compute_weights
 from .utils import compute_points
+from .utils import delete_content
 
-class Jcomposition(ROI):
+from .remove_item import JRemoveItem
+
+
+class Jcomposition(ROI, JRemoveItem):
 
     def __init__(self, objects, info_dock=None, viewbox=None):
 
@@ -26,6 +31,9 @@ class Jcomposition(ROI):
 
         self.weights = None
         self.set_weights()
+
+        JRemoveItem.__init__(self, viewbox)
+        self._display_info_dock()
 
     def set_weights(self):
         bbox = self.get_bbox()
@@ -76,3 +84,22 @@ class Jcomposition(ROI):
             points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
             for i in range(len(points) - 1):
                 p.drawLine(points[i], points[i + 1])
+
+    def _display_info_dock(self):
+
+        if self.info_dock is None:
+            return
+
+        delete_content(self.info_dock)
+
+        container = LayoutWidget()
+        label = QtGui.QLabel("Composition")
+        container.addWidget(label, row=0, col=0)
+
+        remove_item_widget = self.get_remove_item_dock_widget()
+        container.addWidget(remove_item_widget, row=1, col=0)
+
+        vertical_spacer = QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Minimum,
+                                            QtGui.QSizePolicy.Expanding)
+        container.layout.addItem(vertical_spacer, 2, 0)
+        self.info_dock.addWidget(container)

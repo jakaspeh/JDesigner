@@ -6,6 +6,49 @@ from .jrectangle import Jrectangle
 from .bezier_curve import BezierCurve
 
 
+class ExportDialog:
+
+    def __init__(self, window):
+        self.dialog = QtGui.QDialog(window)
+        layout = QtGui.QGridLayout(self.dialog)
+
+        label_1 = QtGui.QLabel("File name:")
+        layout.addWidget(label_1, 0, 0)
+
+        line_edit_1 = QtGui.QLineEdit()
+        layout.addWidget(line_edit_1, 0, 1)
+
+        button_1 = QtGui.QPushButton("Load a file")
+        layout.addWidget(button_1, 0, 2)
+
+        label_2 = QtGui.QLabel("XKCD:")
+        layout.addWidget(label_2, 1, 0)
+
+        radio = QtGui.QRadioButton("")
+        layout.addWidget(radio, 1, 1)
+
+        label_3 = QtGui.QLabel("Width (in cm):")
+        layout.addWidget(label_3, 2, 0)
+
+        line_edit_2 = QtGui.QLineEdit()
+        validator = QtGui.QDoubleValidator(1.0, 50.0, 2)
+        line_edit_2.setValidator(validator)
+        layout.addWidget(line_edit_2, 2, 1)
+
+        label_4 = QtGui.QLabel("Height (in cm):")
+        layout.addWidget(label_4, 3, 0)
+
+        line_edit_3 = QtGui.QLineEdit()
+        line_edit_3.setValidator(validator)
+        layout.addWidget(line_edit_3, 3, 1)
+
+        button_2 = QtGui.QPushButton("Export")
+        layout.addWidget(button_2, 4, 2)
+
+    def exec(self):
+        self.dialog.exec()
+
+
 def split_strings(file_name, split="*"):
 
     strings = []

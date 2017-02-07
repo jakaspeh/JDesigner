@@ -3,7 +3,7 @@ import pyqtgraph.dockarea
 from pyqtgraph import QtGui
 from pyqtgraph import QtCore
 
-from .io import read_curves
+from .io import ExportDialog
 from .jviewbox import JviewBox
 
 class Jwindow:
@@ -100,6 +100,8 @@ class Jwindow:
         self.viewBox.load_as_composition()
 
     def export(self):
+        dialog = ExportDialog(self.win)
+        dialog.exec()
         print("Export")
 
     def export_xkcd(self):

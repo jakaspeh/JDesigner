@@ -15,11 +15,12 @@ class ExportDialog:
         label_1 = QtGui.QLabel("File name:")
         layout.addWidget(label_1, 0, 0)
 
-        line_edit_1 = QtGui.QLineEdit()
-        layout.addWidget(line_edit_1, 0, 1)
+        self.line_edit_file_name = QtGui.QLineEdit()
+        layout.addWidget(self.line_edit_file_name, 0, 1)
 
-        button_1 = QtGui.QPushButton("Load a file")
+        button_1 = QtGui.QPushButton("Choose a file")
         layout.addWidget(button_1, 0, 2)
+        button_1.clicked.connect(self.choose_file)
 
         label_2 = QtGui.QLabel("XKCD:")
         layout.addWidget(label_2, 1, 0)
@@ -48,6 +49,17 @@ class ExportDialog:
     def exec(self):
         self.dialog.exec()
 
+    def choose_file(self):
+
+        file_name = QtGui.QFileDialog.getSaveFileName(None,
+                                                      "Save File",
+                                                      "",
+                                                      "Files (*.png, *.pdf)")
+
+        if file_name[-4:] != ".png" and file_name[-4:] != ".pdf":
+            file_name += ".png"
+
+        self.line_edit_file_name.setText(file_name)
 
 def split_strings(file_name, split="*"):
 

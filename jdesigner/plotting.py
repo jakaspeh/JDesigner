@@ -15,12 +15,7 @@ class JPlotting:
         self.objects.append(obj)
 
     def compute_bbox(self):
-        points = []
-        for obj in self.objects:
-            bbox = obj.compute_bbox()
-            points.append([bbox[0][0], bbox[0][1]])
-            points.append([bbox[1][0], bbox[1][1]])
-        self._bbox = compute_bbox(points)
+        self._bbox = compute_bbox(self.objects)
 
     def plot(self, filename, xkcd=False, size=None):
 

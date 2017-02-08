@@ -26,6 +26,7 @@ class Jcomposition(ROI, JRemoveItem):
         self.viewbox = viewbox
         bbox = self.compute_bbox()
 
+        self.handlePen.setColor(QtGui.QColor(0, 0, 0))
         for corner in bbox:
             self.addFreeHandle(corner)
 
@@ -44,13 +45,7 @@ class Jcomposition(ROI, JRemoveItem):
             self.weights.append(weights_of_points)
 
     def compute_bbox(self):
-        points = []
-        for obj in self.objects:
-            bbox = obj.compute_bbox()
-            points.append([bbox[0][0], bbox[0][1]])
-            points.append([bbox[1][0], bbox[1][1]])
-
-        return compute_bbox(points)
+        return compute_bbox(self.objects)
 
     def get_bbox(self):
         handle0 = self.handles[0]["pos"]

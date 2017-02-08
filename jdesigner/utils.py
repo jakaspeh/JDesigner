@@ -33,7 +33,16 @@ def delete_content(info_dock):
         item.widget().setParent(None)
 
 
-def compute_bbox(points):
+def compute_bbox(objects):
+    points = []
+    for obj in objects:
+        bbox = obj.compute_bbox()
+        points.append([bbox[0][0], bbox[0][1]])
+        points.append([bbox[1][0], bbox[1][1]])
+    return compute_bbox_of_points(points)
+
+
+def compute_bbox_of_points(points):
     x, y = points[0]
     bbox = [[x, y], [x, y]]
     # print("\nStart")

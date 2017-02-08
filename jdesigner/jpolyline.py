@@ -8,7 +8,7 @@ from .utils import perpendicular
 from .utils import normalize
 from .utils import construct_arrow
 from .utils import delete_content
-from .utils import compute_bbox
+from .utils import compute_bbox_of_points
 
 from .color import JChooseColor
 from .color import setup_color
@@ -139,7 +139,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
     def compute_bbox(self):
         points = self._get_drawing_points()
         points = [[x[0], x[1]] for x in points]
-        return compute_bbox(points)
+        return compute_bbox_of_points(points)
 
     def paint(self, p, *args):
 

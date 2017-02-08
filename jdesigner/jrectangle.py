@@ -5,7 +5,7 @@ from pyqtgraph import QtGui
 from pyqtgraph import LayoutWidget
 
 from .utils import delete_content
-from .utils import compute_bbox
+from .utils import compute_bbox_of_points
 
 from .color import JChooseColor
 from .color import setup_color
@@ -82,7 +82,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         return pts
 
     def compute_bbox(self):
-        return compute_bbox(self._get_drawing_points())
+        return compute_bbox_of_points(self._get_drawing_points())
 
     def paint(self, p, *args):
 

@@ -9,6 +9,7 @@ from .bezier_curve import BezierCurve
 class ExportDialog:
 
     def __init__(self, window):
+        self.window = window
         self.dialog = QtGui.QDialog(window)
         layout = QtGui.QGridLayout(self.dialog)
 
@@ -31,17 +32,17 @@ class ExportDialog:
         label_3 = QtGui.QLabel("Width (in cm):")
         layout.addWidget(label_3, 2, 0)
 
-        line_edit_2 = QtGui.QLineEdit()
+        self.line_edit_width = QtGui.QLineEdit()
         validator = QtGui.QDoubleValidator(1.0, 50.0, 2)
-        line_edit_2.setValidator(validator)
-        layout.addWidget(line_edit_2, 2, 1)
+        self.line_edit_width.setValidator(validator)
+        layout.addWidget(self.line_edit_width, 2, 1)
 
         label_4 = QtGui.QLabel("Height (in cm):")
         layout.addWidget(label_4, 3, 0)
 
-        line_edit_3 = QtGui.QLineEdit()
-        line_edit_3.setValidator(validator)
-        layout.addWidget(line_edit_3, 3, 1)
+        self.line_edit_height = QtGui.QLineEdit()
+        self.line_edit_height.setValidator(validator)
+        layout.addWidget(self.line_edit_height, 3, 1)
 
         button_2 = QtGui.QPushButton("Export")
         layout.addWidget(button_2, 4, 2)

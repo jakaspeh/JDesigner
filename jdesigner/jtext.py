@@ -6,6 +6,7 @@ from pyqtgraph import LayoutWidget
 
 from .utils import delete_content
 from .utils import get_bigger_bbox
+from .utils import compute_bbox_of_points
 
 from .color import JChooseColor
 from .color import setup_color
@@ -104,6 +105,9 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
         file.write("*JText\n")
         file.write(str(data) + "\n")
+
+    def compute_bbox(self):
+        return compute_bbox_of_points(self._get_bbox())
 
     def _build_menu(self):
         menu = QtGui.QMenu()

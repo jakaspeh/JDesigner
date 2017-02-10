@@ -6,62 +6,6 @@ from .jrectangle import Jrectangle
 from .bezier_curve import BezierCurve
 
 
-class ExportDialog:
-
-    def __init__(self, window):
-        self.window = window
-        self.dialog = QtGui.QDialog(window)
-        layout = QtGui.QGridLayout(self.dialog)
-
-        label_1 = QtGui.QLabel("File name:")
-        layout.addWidget(label_1, 0, 0)
-
-        self.line_edit_file_name = QtGui.QLineEdit()
-        layout.addWidget(self.line_edit_file_name, 0, 1)
-
-        button_1 = QtGui.QPushButton("Choose a file")
-        layout.addWidget(button_1, 0, 2)
-        button_1.clicked.connect(self.choose_file)
-
-        label_2 = QtGui.QLabel("XKCD:")
-        layout.addWidget(label_2, 1, 0)
-
-        radio = QtGui.QRadioButton("")
-        layout.addWidget(radio, 1, 1)
-
-        label_3 = QtGui.QLabel("Width (in cm):")
-        layout.addWidget(label_3, 2, 0)
-
-        self.line_edit_width = QtGui.QLineEdit()
-        validator = QtGui.QDoubleValidator(1.0, 50.0, 2)
-        self.line_edit_width.setValidator(validator)
-        layout.addWidget(self.line_edit_width, 2, 1)
-
-        label_4 = QtGui.QLabel("Height (in cm):")
-        layout.addWidget(label_4, 3, 0)
-
-        self.line_edit_height = QtGui.QLineEdit()
-        self.line_edit_height.setValidator(validator)
-        layout.addWidget(self.line_edit_height, 3, 1)
-
-        button_2 = QtGui.QPushButton("Export")
-        layout.addWidget(button_2, 4, 2)
-
-    def exec(self):
-        self.dialog.exec()
-
-    def choose_file(self):
-
-        file_name = QtGui.QFileDialog.getSaveFileName(None,
-                                                      "Save File",
-                                                      "",
-                                                      "Files (*.png, *.pdf)")
-
-        if file_name[-4:] != ".png" and file_name[-4:] != ".pdf":
-            file_name += ".png"
-
-        self.line_edit_file_name.setText(file_name)
-
 def split_strings(file_name, split="*"):
 
     strings = []

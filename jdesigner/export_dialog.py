@@ -10,6 +10,7 @@ class ExportDialog:
         bbox = compute_bbox(window.viewBox.addedItems)
         self.bbox_height = 2
         self.bbox_width = 2
+        self.success = False
 
         if bbox is not None:
             self.bbox_width = bbox[1][0] - bbox[0][0]
@@ -64,8 +65,36 @@ class ExportDialog:
 
         self.width_radio.setChecked(True)
         self.width_line_edit.setText("3.0")
-        self.width = None
         self._width_changed()
+
+    def is_valid(self):
+        fn = self.file_name()
+        w = self.width()
+        h = self.height()
+        are_slots_good = not (fn == "" or w is None or h is None)
+        return self.success and are_slots_good
+
+    def file_name(self):
+        return self.file_name_line_edit.text()
+
+    def width(self):
+        w = None
+        try:
+            w = float(self.width_line_edit.text())
+        except ValueError:
+            pass
+        return w
+
+    def height(self):
+        h = None
+        try:
+            h = float(self.height_line_edit.text())
+        except ValueError:
+            pass
+        return h
+
+    def xkcd(self):
+        return self.xkcd_checkbox.isChecked()
 
     def _export(self):
         errors = []
@@ -96,6 +125,9 @@ class ExportDialog:
             layout.addWidget(button, len(errors), 0)
             button.clicked.connect(dialog.close)
             dialog.exec()
+        else:
+            self.success = True
+            self.dialog.close()
 
     def _radio_buttons_toggled(self):
         width_checked = self.width_radio.isChecked()
@@ -135,7 +167,7 @@ class ExportDialog:
         file_name = QtGui.QFileDialog.getSaveFileName(None,
                                                       "Save File",
                                                       "",
-                                                      "Files (*.png, *.pdf)")
+                                                      "Files (*.png *.pdf)")
 
         if file_name[-4:] != ".png" and file_name[-4:] != ".pdf":
             file_name += ".png"

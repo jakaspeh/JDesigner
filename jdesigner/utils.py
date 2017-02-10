@@ -1,6 +1,9 @@
 import numpy as np
 
 
+def cm_to_inch(cm):
+    return cm * 0.393701
+
 def perpendicular(vector):
     return np.array([-vector[1], vector[0]])
 

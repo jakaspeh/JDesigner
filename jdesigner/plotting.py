@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 from .utils import compute_bbox
 from .jtext import JtextROI
+from .jtext import Jtext
 
 
 class JPlotting:
@@ -30,7 +31,9 @@ class JPlotting:
         for obj in self.objects:
 
             if type(obj) is JtextROI:
-                pass
+                print("Skipping JtextROI")
+            elif type(obj) is Jtext:
+                print("Skipping Jtext")
             else:
                 points = obj._get_drawing_points()
 

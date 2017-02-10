@@ -5,6 +5,8 @@ from pyqtgraph import QtCore
 
 from .export_dialog import ExportDialog
 from .jviewbox import JviewBox
+from .plotting import JPlotting
+from .utils import cm_to_inch
 
 class Jwindow:
 
@@ -35,7 +37,6 @@ class Jwindow:
         export_xkcd_action = QtGui.QAction("Export XKCD", self.win)
         export_xkcd_action.triggered.connect(self.export_xkcd)
         file_menu.addAction(export_xkcd_action)
-
 
         self.area = pg.dockarea.DockArea()
 
@@ -69,7 +70,6 @@ class Jwindow:
         vertical_spacer = QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Minimum,
                                             QtGui.QSizePolicy.Expanding)
 
-
         w1 = pg.LayoutWidget()
         w1.addWidget(button_add_curve, row=0, col=0)
         w1.addWidget(button_add_line, row=1, col=0)
@@ -102,13 +102,25 @@ class Jwindow:
     def export(self):
         dialog = ExportDialog(self)
         dialog.exec()
-        print("Export")
+        self._export(dialog)
 
     def export_xkcd(self):
         dialog = ExportDialog(self)
         dialog.check_xkcd()
         dialog.exec()
-        print("Export xkcd")
+        self._export(dialog)
+
+    def _export(self, dialog):
+        if dialog.is_valid():
+            file_name = dialog.file_name()
+            do_xkcd = dialog.xkcd()
+            width = dialog.width()
+            height = dialog.height()
+            size = [cm_to_inch(width), cm_to_inch(height)]
+
+            plt = JPlotting(self.viewBox.addedItems)
+            plt.plot(file_name, xkcd=do_xkcd, size=size)
+            print("Saving:", file_name)
 
     def add_curve(self):
         self.label.setText("Adding a curve... Click to create control points...")

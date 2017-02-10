@@ -4,6 +4,7 @@ import numpy as np
 def cm_to_inch(cm):
     return cm * 0.393701
 
+
 def perpendicular(vector):
     return np.array([-vector[1], vector[0]])
 
@@ -65,7 +66,6 @@ def compute_bbox_of_points(points):
             bbox[1][0] = point[0]
         if bbox[1][1] < point[1]:
             bbox[1][1] = point[1]
-        #print(" For", bbox)
     return bbox
 
 

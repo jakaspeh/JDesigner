@@ -64,7 +64,7 @@ class ExportDialog:
         button_2.clicked.connect(self._export)
 
         self.width_radio.setChecked(True)
-        self.width_line_edit.setText("3.0")
+        self.width_line_edit.setText("10.0")
         self._width_changed()
 
     def is_valid(self):

@@ -106,8 +106,9 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         file.write("*JText\n")
         file.write(str(data) + "\n")
 
-    def compute_bbox(self):
-        return compute_bbox_of_points(self._get_bbox())
+    # does not work properly
+    # def compute_bbox(self):
+    #    return compute_bbox_of_points(self._get_bbox())
 
     def _build_menu(self):
         menu = QtGui.QMenu()

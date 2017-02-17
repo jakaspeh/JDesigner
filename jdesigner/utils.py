@@ -43,6 +43,8 @@ def compute_bbox(objects):
         compute_bbox_method = getattr(obj, "compute_bbox", None)
         if callable(compute_bbox_method):
             bbox = obj.compute_bbox()
+            print(obj)
+            print(bbox)
             points.append([bbox[0][0], bbox[0][1]])
             points.append([bbox[1][0], bbox[1][1]])
     if points == []:

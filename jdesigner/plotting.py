@@ -23,6 +23,13 @@ class JPlotting:
 
         plt.close("all")
 
+        self.compute_bbox()
+        x0, y0 = self._bbox[0]
+        x1, y1 = self._bbox[1]
+
+        width = x1 - x0
+        height = y1 - y0
+
         if xkcd:
             plt.xkcd()
 
@@ -37,18 +44,16 @@ class JPlotting:
                     color = o._color
                     self._plot(points, color)
             elif type(obj) is JtextROI:
-                print("Skipping JtextROI")
+                print("Plotting JtextROI")
+                self._plot_text(obj)
             elif type(obj) is Jtext:
                 print("Skipping Jtext")
             else:
                 points = obj._get_drawing_points()
                 self._plot(points, obj._color)
 
-        self.compute_bbox()
-        x0, y0 = self._bbox[0]
-        x1, y1 = self._bbox[1]
-        eps_x = (x1 - x0) / 100
-        eps_y = (y1 - y0) / 100
+        eps_x = width / 100
+        eps_y = height / 100
         plt.xlim([x0 - eps_x, x1 + eps_x])
         plt.ylim([y0 - eps_y, y1 + eps_y])
 
@@ -61,3 +66,19 @@ class JPlotting:
         x = [p[0] for p in points]
         y = [p[1] for p in points]
         plt.plot(x, y, color=color, linestyle="-")
+
+    def _plot_text(self, text_roi):
+
+        x = text_roi.pos().x()
+        y = text_roi.pos().y()
+
+        #size = text_roi.size
+        color = text_roi._color
+        text = text_roi.text.textItem.toPlainText()
+        transpose = text_roi._transpose
+
+        if transpose:
+            plt.text(x, y, text, color=color, va="bottom", ha="middle",
+                     rotation="vertical")
+        else:
+            plt.text(x, y, text, color=color, ha="left", va="top")

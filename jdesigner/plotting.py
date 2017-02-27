@@ -44,10 +44,9 @@ class JPlotting:
                     color = o._color
                     self._plot(points, color)
             elif type(obj) is JtextROI:
-                print("Plotting JtextROI")
                 self._plot_text(obj)
             elif type(obj) is Jtext:
-                print("Skipping Jtext")
+                pass
             else:
                 points = obj._get_drawing_points()
                 self._plot(points, obj._color)
@@ -60,7 +59,11 @@ class JPlotting:
         plt.axis("off")
         plt.axes().set_aspect("equal")
 
-        plt.savefig(filename, bbox_inches="tight", pad_inches=0)
+        plt.tight_layout()
+        plt.savefig(filename)
+
+        # resets the xkcd style
+        plt.rcdefaults()
 
     def _plot(self, points, color):
         x = [p[0] for p in points]
@@ -72,13 +75,13 @@ class JPlotting:
         x = text_roi.pos().x()
         y = text_roi.pos().y()
 
-        #size = text_roi.size
+        size = text_roi.size
         color = text_roi._color
         text = text_roi.text.textItem.toPlainText()
         transpose = text_roi._transpose
 
         if transpose:
-            plt.text(x, y, text, color=color, va="bottom", ha="middle",
-                     rotation="vertical")
+            plt.text(x, y, text, color=color, va="bottom", ha="center",
+                     rotation="vertical", size=size)
         else:
-            plt.text(x, y, text, color=color, ha="left", va="top")
+            plt.text(x, y, text, color=color, ha="left", va="top", size=size)

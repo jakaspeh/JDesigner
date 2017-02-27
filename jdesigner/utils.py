@@ -5,6 +5,14 @@ def cm_to_inch(cm):
     return cm * 0.393701
 
 
+def mm_to_inch(mm):
+    return mm * 0.0393701
+
+
+# def pixel_to_inch(pixel):
+#    # I know this is not correct, but it is a good guess
+#    return pixel * 0.00333
+
 def perpendicular(vector):
     return np.array([-vector[1], vector[0]])
 
@@ -43,8 +51,6 @@ def compute_bbox(objects):
         compute_bbox_method = getattr(obj, "compute_bbox", None)
         if callable(compute_bbox_method):
             bbox = obj.compute_bbox()
-            print(obj)
-            print(bbox)
             points.append([bbox[0][0], bbox[0][1]])
             points.append([bbox[1][0], bbox[1][1]])
     if points == []:

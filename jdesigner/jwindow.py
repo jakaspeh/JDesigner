@@ -3,10 +3,9 @@ import pyqtgraph.dockarea
 from pyqtgraph import QtGui
 from pyqtgraph import QtCore
 
-from .export_dialog import ExportDialog
 from .jviewbox import JviewBox
 from .plotting import JPlotting
-from .utils import cm_to_inch
+from .utils import mm_to_inch
 
 class Jwindow:
 
@@ -42,17 +41,17 @@ class Jwindow:
 
         self.win.setCentralWidget(self.area)
         self.win.resize(1000, 720)
-        self.win.setWindowTitle("JDesigner")
+        self.win.setWindowTitle(title)
 
         leftDock = pg.dockarea.Dock("", size=(200, 350))
         leftBottomDock = pg.dockarea.Dock("Selected Item", size=(200, 350))
         leftBottomDock.label.setDim(False)
-        rightDock = pg.dockarea.Dock("", size=(800, 700))
+        self.rightDock = pg.dockarea.Dock("", size=(800, 700))
         bottomDock = pg.dockarea.Dock("", size=(1000, 20))
 
         self.area.addDock(leftDock, "left")
         self.area.addDock(leftBottomDock, "bottom", leftDock)
-        self.area.addDock(rightDock, "right")
+        self.area.addDock(self.rightDock, "right")
         self.area.addDock(bottomDock, "bottom")
 
         self.label = QtGui.QLabel("My new Label")
@@ -79,7 +78,7 @@ class Jwindow:
         w1.layout.addItem(vertical_spacer)
 
         leftDock.addWidget(w1)
-        rightDock.addWidget(glayout)
+        self.rightDock.addWidget(glayout)
         bottomDock.addWidget(self.label)
 
         button_add_curve.clicked.connect(self.add_curve)
@@ -100,27 +99,30 @@ class Jwindow:
         self.viewBox.load_as_composition()
 
     def export(self):
-        dialog = ExportDialog(self)
-        dialog.exec()
-        self._export(dialog)
+        file_name = QtGui.QFileDialog.getSaveFileName(None,
+                                                      "Export",
+                                                      "",
+                                                      "Files (*.png *.pdf)")
+        if file_name != "":
+            self._export(file_name, xkcd=False)
 
     def export_xkcd(self):
-        dialog = ExportDialog(self)
-        dialog.check_xkcd()
-        dialog.exec()
-        self._export(dialog)
+        file_name = QtGui.QFileDialog.getSaveFileName(None,
+                                                      "Export XKCD",
+                                                      "",
+                                                      "Files (*.png *.pdf)")
+        if file_name != "":
+            self._export(file_name, xkcd=True)
 
-    def _export(self, dialog):
-        if dialog.is_valid():
-            file_name = dialog.file_name()
-            do_xkcd = dialog.xkcd()
-            width = dialog.width()
-            height = dialog.height()
-            size = [cm_to_inch(width), cm_to_inch(height)]
+    def _export(self, file_name, xkcd=False):
+        width = self.rightDock.widthMM()
+        height = self.rightDock.heightMM()
+        size = [mm_to_inch(width), mm_to_inch(height)]
 
-            plt = JPlotting(self.viewBox.addedItems)
-            plt.plot(file_name, xkcd=do_xkcd, size=size)
-            print("Saving:", file_name)
+        plt = JPlotting(self.viewBox.addedItems)
+        plt.plot(file_name, xkcd=xkcd, size=size)
+        xkcd_string = " XKCD" if xkcd else " "
+        self.label.setText("Saving" + xkcd_string +  " to: " + file_name)
 
     def add_curve(self):
         self.label.setText("Adding a curve... Click to create control points...")

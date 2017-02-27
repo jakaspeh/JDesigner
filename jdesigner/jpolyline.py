@@ -51,6 +51,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
             print("Error the string is in the wrong format.")
 
         data = eval(s)
+        print("Laoding", data["control points"])
         polyline = cls(data["control points"], info_dock=info_dock,
                        viewbox=viewbox, arrow=data["arrow"],
                        arrow_start=data["arrow start"],

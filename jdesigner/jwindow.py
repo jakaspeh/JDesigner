@@ -1,17 +1,72 @@
 import pyqtgraph as pg
 import pyqtgraph.dockarea
 from pyqtgraph import QtGui
-from pyqtgraph import QtCore
 
 from .jviewbox import JviewBox
 from .plotting import JPlotting
 from .utils import mm_to_inch
+
 
 class Jwindow:
 
     def __init__(self, title="JDesigner"):
 
         self.win = QtGui.QMainWindow()
+        self.set_file_menu()
+
+        self.area = pg.dockarea.DockArea()
+
+        self.win.setCentralWidget(self.area)
+        self.win.resize(1000, 720)
+        self.win.setWindowTitle(title)
+
+        left_dock = pg.dockarea.Dock("", size=(200, 350))
+        left_bottom_dock = pg.dockarea.Dock("Selected Item", size=(200, 350))
+        left_bottom_dock.label.setDim(False)
+        self.rightDock = pg.dockarea.Dock("", size=(800, 700))
+        bottom_dock = pg.dockarea.Dock("", size=(1000, 20))
+
+        self.area.addDock(left_dock, "left")
+        self.area.addDock(left_bottom_dock, "bottom", left_dock)
+        self.area.addDock(self.rightDock, "right")
+        self.area.addDock(bottom_dock, "bottom")
+
+        self.label = QtGui.QLabel("My new Label")
+
+        glayout = pg.GraphicsLayoutWidget()
+        glayout.setBackground(QtGui.QColor(255, 255, 255))
+        self.viewBox = JviewBox(self.label, left_bottom_dock, lockAspect=True)
+        glayout.addItem(self.viewBox, None, None, 1, 1)
+
+        button_add_curve = QtGui.QPushButton("Add Bezier curve")
+        button_add_line = QtGui.QPushButton("Add polyline")
+        button_add_square = QtGui.QPushButton("Add rectangle")
+        button_add_text = QtGui.QPushButton("Add text")
+        button_clear = QtGui.QPushButton("Clear")
+        vertical_spacer = QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Minimum,
+                                            QtGui.QSizePolicy.Expanding)
+
+        w1 = pg.LayoutWidget()
+        w1.addWidget(button_add_curve, row=0, col=0)
+        w1.addWidget(button_add_line, row=1, col=0)
+        w1.addWidget(button_add_square, row=2, col=0)
+        w1.addWidget(button_add_text, row=3, col=0)
+        w1.addWidget(button_clear, row=4, col=0)
+        w1.layout.addItem(vertical_spacer)
+
+        left_dock.addWidget(w1)
+        self.rightDock.addWidget(glayout)
+        bottom_dock.addWidget(self.label)
+
+        button_add_curve.clicked.connect(self.add_curve)
+        button_add_line.clicked.connect(self.add_polyline)
+        button_add_square.clicked.connect(self.add_rectangle)
+        button_add_text.clicked.connect(self.add_text)
+        button_clear.clicked.connect(self.clear)
+
+        self.label.setText("JDesigner started...")
+
+    def set_file_menu(self):
         bar = self.win.menuBar()
         file_menu = bar.addMenu("&File")
 
@@ -37,57 +92,11 @@ class Jwindow:
         export_xkcd_action.triggered.connect(self.export_xkcd)
         file_menu.addAction(export_xkcd_action)
 
-        self.area = pg.dockarea.DockArea()
+        file_menu.addSeparator()
 
-        self.win.setCentralWidget(self.area)
-        self.win.resize(1000, 720)
-        self.win.setWindowTitle(title)
-
-        leftDock = pg.dockarea.Dock("", size=(200, 350))
-        leftBottomDock = pg.dockarea.Dock("Selected Item", size=(200, 350))
-        leftBottomDock.label.setDim(False)
-        self.rightDock = pg.dockarea.Dock("", size=(800, 700))
-        bottomDock = pg.dockarea.Dock("", size=(1000, 20))
-
-        self.area.addDock(leftDock, "left")
-        self.area.addDock(leftBottomDock, "bottom", leftDock)
-        self.area.addDock(self.rightDock, "right")
-        self.area.addDock(bottomDock, "bottom")
-
-        self.label = QtGui.QLabel("My new Label")
-
-        glayout = pg.GraphicsLayoutWidget()
-        glayout.setBackground(QtGui.QColor(255, 255, 255))
-        self.viewBox = JviewBox(self.label, leftBottomDock, lockAspect=True)
-        glayout.addItem(self.viewBox, None, None, 1, 1)
-
-        button_add_curve = QtGui.QPushButton("Add curve")
-        button_add_line = QtGui.QPushButton("Add polyline")
-        button_add_square = QtGui.QPushButton("Add rectangle")
-        button_add_text = QtGui.QPushButton("Add text")
-        button_clear = QtGui.QPushButton("Clear")
-        vertical_spacer = QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Minimum,
-                                            QtGui.QSizePolicy.Expanding)
-
-        w1 = pg.LayoutWidget()
-        w1.addWidget(button_add_curve, row=0, col=0)
-        w1.addWidget(button_add_line, row=1, col=0)
-        w1.addWidget(button_add_square, row=2, col=0)
-        w1.addWidget(button_add_text, row=3, col = 0)
-        w1.addWidget(button_clear, row=4, col=0)
-        w1.layout.addItem(vertical_spacer)
-
-        leftDock.addWidget(w1)
-        self.rightDock.addWidget(glayout)
-        bottomDock.addWidget(self.label)
-
-        button_add_curve.clicked.connect(self.add_curve)
-        button_add_line.clicked.connect(self.add_polyline)
-        button_add_square.clicked.connect(self.add_rectangle)
-        button_add_text.clicked.connect(self.add_text)
-        button_clear.clicked.connect(self.clear)
-
-        self.label.setText("JDesigner started...")
+        quit_action = QtGui.QAction("Quit", self.win)
+        quit_action.triggered.connect(self.quit)
+        file_menu.addAction(quit_action)
 
     def save_as(self):
         self.viewBox.save_as()
@@ -122,7 +131,10 @@ class Jwindow:
         plt = JPlotting(self.viewBox.addedItems)
         plt.plot(file_name, xkcd=xkcd, size=size)
         xkcd_string = " XKCD" if xkcd else " "
-        self.label.setText("Saving" + xkcd_string +  " to: " + file_name)
+        self.label.setText("Saving" + xkcd_string + " to: " + file_name)
+
+    def quit(self):
+        self.win.close()
 
     def add_curve(self):
         self.label.setText("Adding a curve... Click to create control points...")
@@ -139,19 +151,6 @@ class Jwindow:
     def add_text(self):
         self.label.setText("Adding a text... Click to add a text...")
         self.viewBox.add_text()
-
-    # def save_scene(self):
-    #     # print("Save scene")
-    #     file_name = QtGui.QFileDialog.getSaveFileName()
-    #     # print("File name: ", file_name)
-    #     self.items.save(file_name)
-    #
-    # def load_scene(self):
-    #     # print("Load scene")
-    #     file_name = QtGui.QFileDialog.getOpenFileName()
-    #     curves = read_curves(file_name)
-    #     for curve in curves:
-    #         self.add_curve(curve)
 
     def clear(self):
         self.viewBox.clear()

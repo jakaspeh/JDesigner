@@ -88,9 +88,8 @@ def get_open_filename():
                                                   "",
                                                   "Files (*.jdes)")
     if file_name[-5:] != ".jdes":
-        print("Wrong format, cannot open file %s", file_name)
+        print("Wrong format, cannot open file %s" % file_name)
         return None
-        #TODO add label
 
     return file_name
 

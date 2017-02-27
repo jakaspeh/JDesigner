@@ -198,6 +198,8 @@ class JviewBox(ViewBox):
 
     def load_as_composition(self):
         file_name = get_open_filename()
+        if file_name is None:
+            return
         strings = split_strings(file_name)
 
         objects = []

@@ -40,7 +40,7 @@ class Jcomposition(ROI, JRemoveItem):
         bbox = self.get_bbox()
         self.weights = []
         for obj in self.objects:
-            points = obj._get_drawing_points()
+            points = obj.get_drawing_points()
             weights_of_points = compute_weights(bbox, points)
             self.weights.append(weights_of_points)
 

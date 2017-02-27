@@ -85,7 +85,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
 
     def shape(self):
         p = QtGui.QPainterPath()
-        points = self._get_drawing_points()
+        points = self.get_drawing_points()
 
         if points == []:
             return p
@@ -116,7 +116,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
     def boundingRect(self):
         return self.shape().boundingRect()
 
-    def _get_drawing_points(self):
+    def get_drawing_points(self):
 
         if not self._arrow:
             return self.get_points()
@@ -138,13 +138,13 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
             return new_pts
 
     def compute_bbox(self):
-        points = self._get_drawing_points()
+        points = self.get_drawing_points()
         points = [[x[0], x[1]] for x in points]
         return compute_bbox_of_points(points)
 
     def paint(self, p, *args):
 
-        pts = self._get_drawing_points()
+        pts = self.get_drawing_points()
         points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)

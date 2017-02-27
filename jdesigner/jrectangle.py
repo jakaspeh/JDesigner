@@ -68,7 +68,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         if ev.button() == QtCore.Qt.RightButton:
             self._raise_menu(ev)
 
-    def _get_drawing_points(self):
+    def get_drawing_points(self):
         low = [self.pos().x(), self.pos().y()]
         disp = [self.size().x(), self.size().y()]
 
@@ -82,7 +82,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         return pts
 
     def compute_bbox(self):
-        return compute_bbox_of_points(self._get_drawing_points())
+        return compute_bbox_of_points(self.get_drawing_points())
 
     def paint(self, p, *args):
 

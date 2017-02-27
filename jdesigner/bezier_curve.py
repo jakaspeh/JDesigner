@@ -109,7 +109,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
     def boundingRect(self):
         return self.shape().boundingRect()
 
-    def _get_drawing_points(self):
+    def get_drawing_points(self):
         if not self._arrow:
             cps = self.getControlPoints()
             parameters = np.linspace(0.0, 1.0, self.resolution)
@@ -126,7 +126,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
     def paint(self, p, *args):
 
-        pts = self._get_drawing_points()
+        pts = self.get_drawing_points()
         points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)

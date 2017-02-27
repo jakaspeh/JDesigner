@@ -40,7 +40,7 @@ class JPlotting:
 
             if type(obj) is Jcomposition:
                 for o in obj.objects:
-                    points = o._get_drawing_points()
+                    points = o.get_drawing_points()
                     color = o._color
                     self._plot(points, color)
             elif type(obj) is JtextROI:
@@ -48,7 +48,7 @@ class JPlotting:
             elif type(obj) is Jtext:
                 pass
             else:
-                points = obj._get_drawing_points()
+                points = obj.get_drawing_points()
                 self._plot(points, obj._color)
 
         eps_x = width / 100

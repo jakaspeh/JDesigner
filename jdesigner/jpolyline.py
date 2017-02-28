@@ -17,6 +17,7 @@ from .arrow import JArrowDock
 
 from .remove_item import JRemoveItem
 
+
 class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
 
     def __init__(self, positions, info_dock=None, viewbox=None,
@@ -59,9 +60,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         setup_color(polyline, data["color"])
         return polyline
 
-
     def save(self, file):
-
         data = {}
         points = self.get_points()
         dx = self.pos().x()
@@ -87,7 +86,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         p = QtGui.QPainterPath()
         points = self.get_drawing_points()
 
-        if points == []:
+        if not points:
             return p
 
         if len(points) == 2:

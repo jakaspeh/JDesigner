@@ -49,10 +49,11 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
 
     def save(self, file):
 
-        data = {}
-        data["color"] = self._color
-        data["pos"] = [self.pos().x(), self.pos().y()]
-        data["size"] = [self.size().x(), self.size().y()]
+        data = {
+            "color": self._color,
+            "pos": [self.pos().x(), self.pos().y()],
+            "size": [self.size().x(), self.size().y()]
+        }
 
         file.write("*JRectangle\n")
         file.write(str(data) + "\n")

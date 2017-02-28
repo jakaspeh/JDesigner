@@ -6,7 +6,6 @@ from pyqtgraph import LayoutWidget
 
 from .utils import delete_content
 from .utils import get_bigger_bbox
-from .utils import compute_bbox_of_points
 
 from .color import JChooseColor
 from .color import setup_color
@@ -32,8 +31,8 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
         dx = screen_bbox[0][1] - screen_bbox[0][0]
         dy = screen_bbox[1][1] - screen_bbox[1][0]
-        self._characted_width = dx * 0.01
-        self._characted_height = dy * 0.04
+        self._character_width = dx * 0.01
+        self._character_height = dy * 0.04
 
         self.text = text
 
@@ -70,8 +69,6 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
             self._toggle_transpose()
             self._transpose_check_box.setChecked(transpose)
 
-        # write loading method for text
-
     @classmethod
     def load(cls, s, info_dock=None, viewbox=None):
         if "*JText" not in s:
@@ -96,12 +93,13 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
     def save(self, file):
 
-        data = {}
-        data["position"] = [self.pos().x(), self.pos().y()]
-        data["text"] = self.text.textItem.toPlainText()
-        data["size"] = self.size
-        data["transpose"] = self._transpose
-        data["color"] = self._color
+        data = {
+            "position": [self.pos().x(), self.pos().y()],
+            "text": self.text.textItem.toPlainText(),
+            "size": self.size,
+            "transpose": self._transpose,
+            "color": self._color
+        }
 
         file.write("*JText\n")
         file.write(str(data) + "\n")
@@ -138,8 +136,8 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         n = len(text)
         factor = self.size / 10
 
-        self.width = factor * n * self._characted_width
-        self.height = factor * self._characted_height
+        self.width = factor * n * self._character_width
+        self.height = factor * self._character_height
         self._build_bbox()
 
     def _build_bbox(self):
@@ -181,7 +179,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         p = QtGui.QPainterPath()
         bbox = self._get_bbox()
         big_bbox = self._bigger_bbox
-        if  big_bbox is None:
+        if big_bbox is None:
             big_bbox = bbox
         else:
             big_bbox = get_bigger_bbox(big_bbox, bbox)
@@ -198,8 +196,6 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         return self.shape().boundingRect()
 
     def paint(self, p, *args):
-        x, y, = self._get_position()
-
         t = p.transform()
         if self._first_transform is None:
             self._first_transform = t
@@ -208,65 +204,12 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
             f1 = self._first_transform.m11() / t.m11()
             f2 = self._first_transform.m22() / t.m22()
             self._change_bbox(f1, f2)
-
-        #print(self.text.textItem.boundingRect())
-
-        #print(tr)
-
-        #brect = self.text.textItem.boundingRect()
-        #brect1 = self.text.textItem.mapRectToScene(brect)
-        #brect2 = self.text.textItem.mapRectToParent(brect)
-        #brect3 = self.text.textItem.mapRectToItem(self.viewbox, brect)
-        #brect4 = self.text.textItem.mapRectFromScene(brect)
-        #brect5 = self.text.textItem.mapRectFromParent(brect)
-        #brect6 = self.text.textItem.mapRectFromItem(self.viewbox, brect)
-
-        #print(brect)
-        # print(brect1)
-        # print(brect2)
-        # print(brect3)
-        #print(brect4)
-        #print(brect5)
-        #print(brect6)
-
-        # t = p.transform()
-        #print(self._first_transform.m11(), self._first_transform.m12(), self._first_transform.m13())
-        #print(self._first_transform.m21(), self._first_transform.m22(), self._first_transform.m23())
-        #print(self._first_transform.m31(), self._first_transform.m32(), self._first_transform.m33())
-
-        #print()
-        #print(t.m11(), t.m12(), t.m13())
-        #print(t.m21(), t.m22(), t.m23())
-        #print(t.m31(), t.m32(), t.m33())
-
-
-        #p.save()
-        #m11 = self._first_transform.m11()
-        #m22 = self._first_transform.m22()
-        #self._last_transform = QtGui.QTransform(m11, t.m12(), t.m13(),
-        #                                        t.m21(), m22, t.m23(),
-        #                                        t.m31(), t.m32(), t.m33())
-
-        #p.setTransform(self._last_transform)
-
         bbox = self._get_bbox()
-        #print(pts)
-        #points = [QtCore.QPointF(self._last_transform.m11() * pt[0],
-        #                         self._last_transform.m22() * pt[1]) for pt in pts]
         points = [QtCore.QPointF(pt[0], pt[1]) for pt in bbox]
-        #print(points)
         self.currentPen.setWidth(2)
-        #self.currentPen.setColor(QtGui.QColor(50, 50, 255))
         p.setPen(self.currentPen)
         for i in range(len(points) - 1):
             p.drawLine(points[i], points[i + 1])
-        #p.restore()
-
-    def _print_rect(self, p, brect):
-        p.drawLine(brect.bottomLeft(), brect.bottomRight())
-        p.drawLine(brect.bottomRight(), brect.topRight())
-        p.drawLine(brect.topRight(), brect.topLeft())
-        p.drawLine(brect.topLeft(), brect.bottomLeft())
 
     def mouseClickEvent(self, ev):
 

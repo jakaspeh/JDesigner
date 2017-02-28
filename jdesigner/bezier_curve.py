@@ -38,7 +38,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         self.menu = self.build_menu()
 
         JChooseColor.__init__(self)
-        self._set_black_color()
+        self.set_black_color()
         JArrowDock.__init__(self, arrow, start=arrow_start, width=arrow_width)
         JRemoveItem.__init__(self, viewbox)
         self._display_info_dock()

@@ -63,7 +63,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         JChooseColor.__init__(self)
         self._set_width_and_height()
         self._display_info_dock()
-        self._set_black_color()
+        self.set_black_color()
 
         self._changed_size()
         if transpose:
@@ -343,24 +343,24 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
         return layout
 
-    def _set_red_color(self):
-        super()._set_red_color()
+    def set_red_color(self):
+        super().set_red_color()
         self._changed_text()
 
-    def _set_blue_color(self):
-        super()._set_blue_color()
+    def set_blue_color(self):
+        super().set_blue_color()
         self._changed_text()
 
-    def _set_green_color(self):
-        super()._set_green_color()
+    def set_green_color(self):
+        super().set_green_color()
         self._changed_text()
 
-    def _set_white_color(self):
-        super()._set_white_color()
+    def set_white_color(self):
+        super().set_white_color()
         self._changed_text()
 
-    def _set_black_color(self):
-        super()._set_black_color()
+    def set_black_color(self):
+        super().set_black_color()
         self._changed_text()
 
     def _display_info_dock(self):

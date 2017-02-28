@@ -8,27 +8,27 @@ class JChooseColor:
         self._color = None
         self._color_rgb = None
 
-    def _set_red_color(self):
+    def set_red_color(self):
         self._color = "red"
         self._color_rgb = (255, 0, 0)
         self.setPen(color="r", width=2)
 
-    def _set_blue_color(self):
+    def set_blue_color(self):
         self._color = "blue"
         self._color_rgb = (0, 0, 255)
         self.setPen(color="b", width=2)
 
-    def _set_green_color(self):
+    def set_green_color(self):
         self._color = "green"
         self._color_rgb = (0, 255, 0)
         self.setPen(color="g", width=2)
 
-    def _set_white_color(self):
+    def set_white_color(self):
         self._color = "white"
         self._color_rgb = (255, 255, 255)
         self.setPen(color="w", width=2)
 
-    def _set_black_color(self):
+    def set_black_color(self):
         self._color = "black"
         self._color_rgb = (0, 0, 0)
         self.setPen(color=(0, 0, 0), width=2)
@@ -42,27 +42,27 @@ class JChooseColor:
 
         button_red = QtGui.QPushButton("Red")
         button_red.setMinimumWidth(45)
-        button_red.clicked.connect(self._set_red_color)
+        button_red.clicked.connect(self.set_red_color)
         layout.addWidget(button_red, row=1, col=0)
 
         button_green = QtGui.QPushButton("Green")
         button_green.setMinimumWidth(45)
-        button_green.clicked.connect(self._set_green_color)
+        button_green.clicked.connect(self.set_green_color)
         layout.addWidget(button_green, row=1, col=1)
 
         button_blue = QtGui.QPushButton("Blue")
         button_blue.setMinimumWidth(45)
-        button_blue.clicked.connect(self._set_blue_color)
+        button_blue.clicked.connect(self.set_blue_color)
         layout.addWidget(button_blue, row=1, col=2)
 
         button_white = QtGui.QPushButton("White")
         button_white.setMinimumWidth(45)
-        button_white.clicked.connect(self._set_white_color)
+        button_white.clicked.connect(self.set_white_color)
         layout.addWidget(button_white, row=2, col=0)
 
         button_black = QtGui.QPushButton("Black")
         button_black.setMinimumWidth(45)
-        button_black.clicked.connect(self._set_black_color)
+        button_black.clicked.connect(self.set_black_color)
         layout.addWidget(button_black, row=2, col=1)
 
         layout.layout.setContentsMargins(0, 0, 0, 5)
@@ -73,14 +73,14 @@ class JChooseColor:
 def setup_color(obj, color):
 
     if color == "red":
-        obj._set_red_color()
+        obj.set_red_color()
     elif color == "blue":
-        obj._set_blue_color()
+        obj.set_blue_color()
     elif color == "green":
-        obj._set_green_color()
+        obj.set_green_color()
     elif color == "white":
-        obj._set_white_color()
+        obj.set_white_color()
     elif color == "black":
-        obj._set_black_color()
+        obj.set_black_color()
     else:
         raise ValueError("Unexisting color: %s" % color)

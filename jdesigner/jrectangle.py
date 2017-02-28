@@ -19,7 +19,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         RectROI.__init__(self, pos, size)
 
         JChooseColor.__init__(self)
-        self._set_black_color()
+        self.set_black_color()
         JRemoveItem.__init__(self, viewbox)
 
         self.info_dock = info_dock

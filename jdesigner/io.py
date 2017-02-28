@@ -67,7 +67,7 @@ def read_curves(file_name):
 
 
 def curve_to_string(curve):
-    control_points = curve.getControlPoints()
+    control_points = curve.get_control_points()
     degree = len(control_points) - 1
 
     s = ""

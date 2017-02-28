@@ -19,6 +19,7 @@ from .remove_item import JRemoveItem
 
 
 class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
+
     def __init__(self, positions, resolution=100, info_dock=None, viewbox=None,
                  arrow=False, arrow_start=0.9, arrow_width=0.5):
 
@@ -32,7 +33,9 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         self.setPen(200, 200, 220)
         self.resolution = resolution
         self.info_dock = info_dock
-        self.menu = self.buildMenu()
+        self._resolution_edit = None
+
+        self.menu = self.build_menu()
 
         JChooseColor.__init__(self)
         self._set_black_color()
@@ -62,7 +65,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
     def save(self, file):
 
         data = {}
-        points = self.getControlPoints()
+        points = self.get_control_points()
         dx = self.pos().x()
         dy = self.pos().y()
         points = [[p[0] + dx, p[1] + dy] for p in points]
@@ -76,31 +79,31 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         file.write("*JBezierCurve\n")
         file.write(str(data) + "\n")
 
-    def getControlPoints(self):
+    def get_control_points(self):
 
-        controlPoints = []
+        control_points = []
         for p in self.handles:
             vector = np.array([p["pos"].x(), p["pos"].y()])
-            controlPoints.append(vector)
+            control_points.append(vector)
 
-        return controlPoints
+        return control_points
 
     def compute_bbox(self):
-        points = self.getControlPoints()
+        points = self.get_control_points()
         points = [[x[0], x[1]] for x in points]
         return compute_bbox_of_points(points)
 
     def shape(self):
         p = QtGui.QPainterPath()
-        controlPoints = self.getControlPoints()
+        control_points = self.get_control_points()
 
-        if len(controlPoints) == 0:
+        if len(control_points) == 0:
             return p
 
-        start = controlPoints[0]
+        start = control_points[0]
 
         p.moveTo(start[0], start[1])
-        for point in controlPoints[1:]:
+        for point in control_points[1:]:
             p.lineTo(point[0], point[1])
 
         p.lineTo(start[0], start[1])
@@ -111,11 +114,11 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
     def get_drawing_points(self):
         if not self._arrow:
-            cps = self.getControlPoints()
+            cps = self.get_control_points()
             parameters = np.linspace(0.0, 1.0, self.resolution)
             return [de_casteljau(cps, t) for t in parameters]
         else:
-            cps = self.getControlPoints()
+            cps = self.get_control_points()
             parameters = np.linspace(0.0, self._arrow_start, self.resolution)
             curve = [de_casteljau(cps, t) for t in parameters]
             last_2 = curve[-1]
@@ -137,17 +140,17 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
     def mouseClickEvent(self, ev):
         self._display_info_dock()
         if ev.button() == QtCore.Qt.RightButton:
-            self.raiseMenu(ev)
+            self.raise_menu(ev)
 
-    def buildMenu(self):
+    def build_menu(self):
         menu = QtGui.QMenu()
         menu.setTitle("Bezier Curve")
-        menu.addAction("Elevate Degree", self.elevateDegree)
+        menu.addAction("Elevate Degree", self.elevate_degree)
         menu.addAction("Remove", self.remove_item)
         return menu
 
-    def elevateDegree(self):
-        control_points = self.getControlPoints()
+    def elevate_degree(self):
+        control_points = self.get_control_points()
         new_control_points = degree_elevation(control_points)
 
         for handle in self.handles[:]:
@@ -161,7 +164,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         self._arrow = not self._arrow
         self.update()
 
-    def raiseMenu(self, event):
+    def raise_menu(self, event):
         pos = event.screenPos()
         self.menu.popup(QtCore.QPoint(pos.x(), pos.y()))
 
@@ -199,7 +202,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
         layout = LayoutWidget()
         button = QtGui.QPushButton("Elevate Degree")
-        button.clicked.connect(self.elevateDegree)
+        button.clicked.connect(self.elevate_degree)
         layout.addWidget(button, row=0, col=0)
 
         layout.layout.setContentsMargins(0, 0, 0, 0)
@@ -236,6 +239,3 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         container.layout.addItem(vertical_spacer, 6, 0)
 
         self.info_dock.addWidget(container)
-
-
-

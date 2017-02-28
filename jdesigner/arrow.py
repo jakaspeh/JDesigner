@@ -8,6 +8,12 @@ class JArrowDock:
         self._arrow = arrow
         self._arrow_start = start
         self._arrow_width = width
+        self._arrow_check_box = None
+        self._arrow_start_edit = None
+        self._arrow_width_edit = None
+        self._arrow_label2 = None
+        self._arrow_label3 = None
+        self._arrow_width_edit = None
 
     def get_arrow_dock_widget(self):
         layout = LayoutWidget()
@@ -16,11 +22,11 @@ class JArrowDock:
 
         label4 = QtGui.QLabel("On/Off:")
         layout.addWidget(label4, row=1, col=0)
-        chBox4 = QtGui.QCheckBox()
-        layout.addWidget(chBox4, row=1, col=1)
-        chBox4.setChecked(self._arrow)
-        chBox4.toggled.connect(self._dock_toggle_arrow)
-        self._arrow_check_box = chBox4
+        check_box4 = QtGui.QCheckBox()
+        layout.addWidget(check_box4, row=1, col=1)
+        check_box4.setChecked(self._arrow)
+        check_box4.toggled.connect(self._dock_toggle_arrow)
+        self._arrow_check_box = check_box4
 
         label2 = QtGui.QLabel("Start:")
         layout.addWidget(label2, row=2, col=0)
@@ -50,9 +56,11 @@ class JArrowDock:
 
     def _changed_arrow(self):
         try:
-            #fix if zero
-            self._arrow_start = float(self._arrow_start_edit.text())
-            self._arrow_width = float(self._arrow_width_edit.text())
+            start = float(self._arrow_start_edit.text())
+            width = float(self._arrow_width_edit.text())
+            if start != 0 and width != 0:
+                self._arrow_start = start
+                self._arrow_width = width
         except ValueError:
             pass
         self.update()

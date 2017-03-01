@@ -137,7 +137,7 @@ class Jwindow:
         self.win.close()
 
     def add_curve(self):
-        self.label.setText("Adding a curve... Click to create control points...")
+        self.label.setText("Adding a Bezier curve... Click to create control points...")
         self.viewBox.add_curve()
 
     def add_polyline(self):

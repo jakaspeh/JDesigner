@@ -133,13 +133,12 @@ class JviewBox(ViewBox):
         point = [p.x(), p.y()]
         self._curve_control_points.append(point)
 
-        num_control_points = len(self._curve_control_points)
-        if num_control_points < 4:
-            diff = 4 - num_control_points
-            self.label.setText("Create " + str(diff) + " more control points.")
-        else:
-            self.label.setText("New curve created")
-
+        if event.button() == QtCore.Qt.LeftButton:
+            text = "Creating Bezier curve. left click to "
+            text += "create control points, right click to stop."
+            self.label.setText(text);
+        elif event.button() == QtCore.Qt.RightButton:
+            self.label.setText("New Bezier curve created")
             curve = BezierCurve(self._curve_control_points, info_dock=self.info_dock, viewbox=self)
             self.addItem(curve)
             self._reset_private_variables()

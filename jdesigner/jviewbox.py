@@ -192,9 +192,9 @@ class JviewBox(ViewBox):
 
         for s in strings:
 
-            object = construct_object(s, self)
-            if object is not None:
-                self.addItem(object)
+            obj = construct_object(s, self)
+            if obj is not None:
+                self.addItem(obj)
 
     def load_as_composition(self):
         file_name = get_open_filename()
@@ -204,20 +204,18 @@ class JviewBox(ViewBox):
 
         objects = []
         for s in strings:
-            object = construct_object(s, self)
-            if type(object) is JtextROI:
+            obj = construct_object(s, self)
+            if type(obj) is JtextROI:
                 # hack, otherwise pyqtgraph would like to use object.text
-                self.addItem(object)
-                self.removeItem(object)
+                self.addItem(obj)
+                self.removeItem(obj)
                 print("Skipping text, can not have text in composition.")
             else:
-                objects.append(object)
+                objects.append(obj)
 
         composition = Jcomposition(objects, info_dock=self.info_dock,
                                    viewbox=self)
         self.addItem(composition)
-
-
 
     def _build_menu(self):
         menu = QtGui.QMenu()
@@ -228,4 +226,3 @@ class JviewBox(ViewBox):
     def _raise_menu(self, event):
         pos = event.screenPos()
         self._menu.popup(QtCore.QPoint(pos.x(), pos.y()))
-

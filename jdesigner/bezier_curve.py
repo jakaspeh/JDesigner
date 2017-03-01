@@ -20,7 +20,7 @@ from .remove_item import JRemoveItem
 
 class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
-    def __init__(self, positions, resolution=100, info_dock=None, viewbox=None,
+    def __init__(self, positions, resolution=100, viewbox=None,
                  arrow=False, arrow_start=0.9, arrow_width=0.5):
 
         pos = [0, 0]
@@ -32,7 +32,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
         self.setPen(200, 200, 220)
         self.resolution = resolution
-        self.info_dock = info_dock
+        self.info_dock = viewbox.info_dock
         self._resolution_edit = None
 
         self.menu = self.build_menu()
@@ -44,7 +44,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         self._display_info_dock()
 
     @classmethod
-    def load(cls, s, info_dock=None, viewbox=None):
+    def load(cls, s, viewbox=None):
         if "*JBezierCurve" not in s:
             print("Error reading a Bezier curve from string %s" % s)
 
@@ -56,8 +56,8 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         data = eval(s)
 
         curve = cls(data["control points"], data["resolution"],
-                    info_dock=info_dock, viewbox=viewbox,
-                    arrow=data["arrow"], arrow_start=data["arrow start"],
+                    viewbox=viewbox, arrow=data["arrow"],
+                    arrow_start=data["arrow start"],
                     arrow_width=data["arrow width"])
         setup_color(curve, data["color"])
         return curve

@@ -20,8 +20,8 @@ from .remove_item import JRemoveItem
 
 class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
 
-    def __init__(self, positions, info_dock=None, viewbox=None,
-                 arrow=False, arrow_start=0.9, arrow_width=0.5):
+    def __init__(self, positions, viewbox=None, arrow=False,
+                 arrow_start=0.9, arrow_width=0.5):
         pos = [0, 0]
         ROI.__init__(self, pos, size=[1, 1])
 
@@ -30,7 +30,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         for p in positions:
             self.addFreeHandle(p)
 
-        self.info_dock = info_dock
+        self.info_dock = viewbox.info_dock
         self._menu = self._build_menu()
         self._arrow = False
 
@@ -42,7 +42,7 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
         self._display_info_dock()
 
     @classmethod
-    def load(cls, s, info_dock=None, viewbox=None):
+    def load(cls, s, viewbox=None):
         if "*JPolyline" not in s:
             print("Error reading a Bezier curve from string %s" % s)
 
@@ -52,8 +52,8 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
             print("Error the string is in the wrong format.")
 
         data = eval(s)
-        polyline = cls(data["control points"], info_dock=info_dock,
-                       viewbox=viewbox, arrow=data["arrow"],
+        polyline = cls(data["control points"], viewbox=viewbox,
+                       arrow=data["arrow"],
                        arrow_start=data["arrow start"],
                        arrow_width=data["arrow width"])
         setup_color(polyline, data["color"])

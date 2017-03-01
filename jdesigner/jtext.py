@@ -23,8 +23,8 @@ class Jtext(TextItem):
 
 class JtextROI(ROI, JRemoveItem, JChooseColor):
 
-    def __init__(self, position, text, info_dock=None, viewbox=None,
-                 screen_bbox=None, size=10, transpose=False):
+    def __init__(self, position, text, viewbox=None, screen_bbox=None,
+                 size=10, transpose=False):
 
         ROI.__init__(self, position, size=[1, 1])
         self.handlePen.setColor(QtGui.QColor(0, 0, 0))
@@ -44,7 +44,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self._bigger_bbox = None
         self.text.setParentItem(self)
 
-        self.info_dock = info_dock
+        self.info_dock = viewbox.info_dock
 
         self._menu = self._build_menu()
         self.transpose = False
@@ -70,7 +70,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
             self._transpose_check_box.setChecked(transpose)
 
     @classmethod
-    def load(cls, s, info_dock=None, viewbox=None):
+    def load(cls, s, viewbox=None):
         if "*JText" not in s:
             print("Error reading a Text from string %s" % s)
 
@@ -83,8 +83,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
         text = Jtext(data["text"])
         viewbox.addItem(text)
-        text_roi = JtextROI(data["position"], text, info_dock=info_dock,
-                            viewbox=viewbox,
+        text_roi = JtextROI(data["position"], text, viewbox=viewbox,
                             screen_bbox=viewbox.viewRange(),
                             size=data["size"],
                             transpose=data["transpose"])

@@ -111,7 +111,7 @@ class JviewBox(ViewBox):
             dy = abs(p1[1] - p0[1])
             size = [dx, dy]
 
-            rectangle = Jrectangle(p0, size, info_dock=self.info_dock, viewbox=self)
+            rectangle = Jrectangle(p0, size, viewbox=self)
             self.addItem(rectangle)
             self._reset_private_variables()
 
@@ -124,7 +124,7 @@ class JviewBox(ViewBox):
             self.label.setText("Creating polyline, left click to create points, right click to stop.")
         elif event.button() == QtCore.Qt.RightButton:
             self.label.setText("New polyline created.")
-            polyline = JpolyLine(self._polyline_points, info_dock=self.info_dock, viewbox=self)
+            polyline = JpolyLine(self._polyline_points, viewbox=self)
             self.addItem(polyline)
             self._reset_private_variables()
 
@@ -139,7 +139,7 @@ class JviewBox(ViewBox):
             self.label.setText(text);
         elif event.button() == QtCore.Qt.RightButton:
             self.label.setText("New Bezier curve created")
-            curve = BezierCurve(self._curve_control_points, info_dock=self.info_dock, viewbox=self)
+            curve = BezierCurve(self._curve_control_points, viewbox=self)
             self.addItem(curve)
             self._reset_private_variables()
 
@@ -151,7 +151,7 @@ class JviewBox(ViewBox):
 
         text = Jtext("Text")
         self.addItem(text)
-        text_roi = JtextROI(point, text, info_dock=self.info_dock, viewbox=self, screen_bbox=self.viewRange())
+        text_roi = JtextROI(point, text, viewbox=self, screen_bbox=self.viewRange())
         self.addItem(text_roi)
         self._reset_private_variables()
 
@@ -212,8 +212,7 @@ class JviewBox(ViewBox):
             else:
                 objects.append(obj)
 
-        composition = Jcomposition(objects, info_dock=self.info_dock,
-                                   viewbox=self)
+        composition = Jcomposition(objects, viewbox=self)
         self.addItem(composition)
 
     def _build_menu(self):

@@ -42,11 +42,11 @@ def get_open_filename():
 def construct_object(string, viewbox):
     obj = None
     if "*JRectangle" in string:
-        obj = Jrectangle.load(string, info_dock=viewbox.info_dock, viewbox=viewbox)
+        obj = Jrectangle.load(string, viewbox=viewbox)
     if "*JBezierCurve" in string:
-        obj = BezierCurve.load(string, info_dock=viewbox.info_dock, viewbox=viewbox)
+        obj = BezierCurve.load(string, viewbox=viewbox)
     if "*JPolyline" in string:
-        obj = JpolyLine.load(string, info_dock=viewbox.info_dock, viewbox=viewbox)
+        obj = JpolyLine.load(string, viewbox=viewbox)
     if "*JText" in string:
-        obj = JtextROI.load(string, info_dock=viewbox.info_dock, viewbox=viewbox)
+        obj = JtextROI.load(string, viewbox=viewbox)
     return obj

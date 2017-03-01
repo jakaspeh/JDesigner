@@ -15,14 +15,14 @@ from .remove_item import JRemoveItem
 
 class Jrectangle(RectROI, JChooseColor, JRemoveItem):
 
-    def __init__(self, pos, size, info_dock=None, viewbox=None):
+    def __init__(self, pos, size, viewbox=None):
         RectROI.__init__(self, pos, size)
 
         JChooseColor.__init__(self)
         self.set_black_color()
         JRemoveItem.__init__(self, viewbox)
 
-        self.info_dock = info_dock
+        self.info_dock = viewbox.info_dock
 
         self._menu = self._build_menu()
         self._display_info_dock()
@@ -32,7 +32,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
             handle.currentPen.setColor(QtGui.QColor(0, 0, 0))
 
     @classmethod
-    def load(cls, s, info_dock=None, viewbox=None):
+    def load(cls, s, viewbox=None):
         if "*JRectangle" not in s:
             print("Error reading a rectangle from a string %s" % s)
 
@@ -42,8 +42,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
             print("Error the string is in the wrong format")
 
         data = eval(s)
-        rectangle = cls(data["pos"], data["size"], info_dock=info_dock,
-                        viewbox=viewbox)
+        rectangle = cls(data["pos"], data["size"], viewbox=viewbox)
         setup_color(rectangle, data["color"])
         return rectangle
 

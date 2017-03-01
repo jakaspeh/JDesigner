@@ -13,7 +13,7 @@ from .remove_item import JRemoveItem
 
 class Jcomposition(ROI, JRemoveItem):
 
-    def __init__(self, objects, info_dock=None, viewbox=None):
+    def __init__(self, objects, viewbox=None):
 
         pos = [0, 0]
         ROI.__init__(self, pos, size=[1, 1])
@@ -22,7 +22,7 @@ class Jcomposition(ROI, JRemoveItem):
 
         self.setPen(200, 200, 200)
 
-        self.info_dock = info_dock
+        self.info_dock = viewbox.info_dock
         self.viewbox = viewbox
         bbox = self.compute_bbox()
 

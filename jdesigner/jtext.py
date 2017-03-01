@@ -47,7 +47,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self.info_dock = info_dock
 
         self._menu = self._build_menu()
-        self._transpose = False
+        self.transpose = False
 
         JRemoveItem.__init__(self, viewbox)
         self._viewbox = viewbox
@@ -97,8 +97,8 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
             "position": [self.pos().x(), self.pos().y()],
             "text": self.text.textItem.toPlainText(),
             "size": self.size,
-            "transpose": self._transpose,
-            "color": self._color
+            "transpose": self.transpose,
+            "color": self.color
         }
 
         file.write("*JText\n")
@@ -120,8 +120,8 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         self._transpose_check_box.setChecked(not b)
 
     def _toggle_transpose(self):
-        self._transpose = not self._transpose
-        if self._transpose:
+        self.transpose = not self.transpose
+        if self.transpose:
             self.text.textItem.setRotation(270)
         else:
             self.text.textItem.setRotation(0)
@@ -145,7 +145,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
         bbox = []
         width = self.width
         height = self.height
-        if self._transpose:
+        if self.transpose:
             bbox.append([x + height, y])
             bbox.append([x + height, y + width])
             bbox.append([x, y + width])
@@ -224,7 +224,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
     def _dock_toggle_transpose(self):
         b = self._transpose_check_box.isChecked()
-        if self._transpose != b:
+        if self.transpose != b:
             self._toggle_transpose()
 
     def _transpose_dock_widget(self):
@@ -236,7 +236,7 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
 
         check_box = QtGui.QCheckBox()
         layout.addWidget(check_box, row=0, col=1)
-        check_box.setChecked(self._transpose)
+        check_box.setChecked(self.transpose)
         check_box.toggled.connect(self._dock_toggle_transpose)
         self._transpose_check_box = check_box
 

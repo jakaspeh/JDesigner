@@ -5,31 +5,31 @@ from pyqtgraph import QtGui
 class JChooseColor:
 
     def __init__(self):
-        self._color = None
+        self.color = None
         self._color_rgb = None
 
     def set_red_color(self):
-        self._color = "red"
+        self.color = "red"
         self._color_rgb = (255, 0, 0)
         self.setPen(color="r", width=2)
 
     def set_blue_color(self):
-        self._color = "blue"
+        self.color = "blue"
         self._color_rgb = (0, 0, 255)
         self.setPen(color="b", width=2)
 
     def set_green_color(self):
-        self._color = "green"
+        self.color = "green"
         self._color_rgb = (0, 255, 0)
         self.setPen(color="g", width=2)
 
     def set_white_color(self):
-        self._color = "white"
+        self.color = "white"
         self._color_rgb = (255, 255, 255)
         self.setPen(color="w", width=2)
 
     def set_black_color(self):
-        self._color = "black"
+        self.color = "black"
         self._color_rgb = (0, 0, 0)
         self.setPen(color=(0, 0, 0), width=2)
 

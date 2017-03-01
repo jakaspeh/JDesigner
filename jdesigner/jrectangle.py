@@ -50,7 +50,7 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
     def save(self, file):
 
         data = {
-            "color": self._color,
+            "color": self.color,
             "pos": [self.pos().x(), self.pos().y()],
             "size": [self.size().x(), self.size().y()]
         }

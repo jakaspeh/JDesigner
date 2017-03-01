@@ -71,7 +71,7 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
         points = [[p[0] + dx, p[1] + dy] for p in points]
         data["control points"] = points
         data["resolution"] = self.resolution
-        data["color"] = self._color
+        data["color"] = self.color
         data["arrow"] = self._arrow
         data["arrow start"] = self._arrow_start
         data["arrow width"] = self._arrow_width

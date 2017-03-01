@@ -41,7 +41,7 @@ class JPlotting:
             if type(obj) is Jcomposition:
                 for o in obj.objects:
                     points = o.get_drawing_points()
-                    color = o._color
+                    color = o.color
                     self._plot(points, color)
             elif type(obj) is JtextROI:
                 self._plot_text(obj)
@@ -49,7 +49,7 @@ class JPlotting:
                 pass
             else:
                 points = obj.get_drawing_points()
-                self._plot(points, obj._color)
+                self._plot(points, obj.color)
 
         eps_x = width / 100
         eps_y = height / 100
@@ -65,20 +65,22 @@ class JPlotting:
         # resets the xkcd style
         plt.rcdefaults()
 
-    def _plot(self, points, color):
+    @staticmethod
+    def _plot(points, color):
         x = [p[0] for p in points]
         y = [p[1] for p in points]
         plt.plot(x, y, color=color, linestyle="-")
 
-    def _plot_text(self, text_roi):
+    @staticmethod
+    def _plot_text(text_roi):
 
         x = text_roi.pos().x()
         y = text_roi.pos().y()
 
         size = text_roi.size
-        color = text_roi._color
+        color = text_roi.color
         text = text_roi.text.textItem.toPlainText()
-        transpose = text_roi._transpose
+        transpose = text_roi.transpose
 
         if transpose:
             plt.text(x, y, text, color=color, va="bottom", ha="center",

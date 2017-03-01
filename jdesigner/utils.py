@@ -38,9 +38,7 @@ def delete_content(info_dock):
 
     layout = info_dock.layout
     item = layout.itemAtPosition(0, 0)
-    # print(item)
     if item is not None:
-        # print(item.widget())
         layout.removeItem(item)
         item.widget().setParent(None)
 
@@ -53,7 +51,7 @@ def compute_bbox(objects):
             bbox = obj.compute_bbox()
             points.append([bbox[0][0], bbox[0][1]])
             points.append([bbox[1][0], bbox[1][1]])
-    if points == []:
+    if not points:
         return None
     else:
         return compute_bbox_of_points(points)
@@ -62,9 +60,6 @@ def compute_bbox(objects):
 def compute_bbox_of_points(points):
     x, y = points[0]
     bbox = [[x, y], [x, y]]
-    # print("\nStart")
-    # print(bbox)
-    # print(points)
     for point in points[1:]:
         if point[0] < bbox[0][0]:
             bbox[0][0] = point[0]

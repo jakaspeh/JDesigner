@@ -24,4 +24,3 @@ class JRemoveItem:
         layout.layout.setContentsMargins(0, 0, 0, 5)
 
         return layout
-

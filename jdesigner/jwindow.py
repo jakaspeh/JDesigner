@@ -131,7 +131,7 @@ class Jwindow:
         plt = JPlotting(self.viewBox.addedItems)
         plt.plot(file_name, xkcd=xkcd, size=size)
         xkcd_string = " XKCD" if xkcd else " "
-        self.label.setText("Saving" + xkcd_string + " to: " + file_name)
+        self.label.setText("Exporting" + xkcd_string + " to: " + file_name)
 
     def quit(self):
         self.win.close()

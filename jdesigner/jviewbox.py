@@ -175,7 +175,8 @@ class JviewBox(ViewBox):
         if file_name[-5:] != ".jdes":
             file_name += ".jdes"
 
-        # add label
+        self.label.setText("Saving to %s." % file_name)
+
         with open(file_name, "w") as file:
             for item in self.addedItems:
                 if type(item) is Jtext:

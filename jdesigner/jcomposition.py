@@ -36,6 +36,13 @@ class Jcomposition(ROI, JRemoveItem):
         JRemoveItem.__init__(self, viewbox)
         self._display_info_dock()
 
+    def save(self, file):
+        # current version, just save it as individual object, not as
+        # a composition
+
+        for obj in self.objects:
+            obj.save(file)
+
     def set_weights(self):
         bbox = self.get_bbox()
         self.weights = []

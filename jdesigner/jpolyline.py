@@ -57,6 +57,10 @@ class JpolyLine(ROI, JChooseColor, JArrowDock, JRemoveItem):
                        arrow_start=data["arrow start"],
                        arrow_width=data["arrow width"])
         setup_color(polyline, data["color"])
+
+        if viewbox is not None:
+            viewbox.label.setText("Polyline loaded.")
+
         return polyline
 
     def save(self, file):

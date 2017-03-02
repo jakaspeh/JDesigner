@@ -54,12 +54,15 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
             print("Error the string is in the wrong format")
 
         data = eval(s)
-
         curve = cls(data["control points"], data["resolution"],
                     viewbox=viewbox, arrow=data["arrow"],
                     arrow_start=data["arrow start"],
                     arrow_width=data["arrow width"])
         setup_color(curve, data["color"])
+
+        if viewbox is not None:
+            viewbox.label.setText("Bezier Curve loaded.")
+
         return curve
 
     def save(self, file):

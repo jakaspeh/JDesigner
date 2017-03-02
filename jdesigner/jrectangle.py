@@ -44,6 +44,10 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
         data = eval(s)
         rectangle = cls(data["pos"], data["size"], viewbox=viewbox)
         setup_color(rectangle, data["color"])
+
+        if viewbox is not None:
+            viewbox.label.setText("Rectangle loaded.")
+
         return rectangle
 
     def save(self, file):

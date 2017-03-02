@@ -134,7 +134,7 @@ class JviewBox(ViewBox):
         self._curve_control_points.append(point)
 
         if event.button() == QtCore.Qt.LeftButton:
-            text = "Creating Bezier curve. left click to "
+            text = "Creating Bezier curve, left click to "
             text += "create control points, right click to stop."
             self.label.setText(text);
         elif event.button() == QtCore.Qt.RightButton:
@@ -214,6 +214,7 @@ class JviewBox(ViewBox):
 
         composition = Jcomposition(objects, viewbox=self)
         self.addItem(composition)
+        self.label.setText("Composition loaded...")
 
     def _build_menu(self):
         menu = QtGui.QMenu()

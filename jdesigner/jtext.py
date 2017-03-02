@@ -80,7 +80,6 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
             print("Error the string is in the wrong format")
 
         data = eval(s)
-
         text = Jtext(data["text"])
         viewbox.addItem(text)
         text_roi = JtextROI(data["position"], text, viewbox=viewbox,
@@ -88,6 +87,10 @@ class JtextROI(ROI, JRemoveItem, JChooseColor):
                             size=data["size"],
                             transpose=data["transpose"])
         setup_color(text_roi, data["color"])
+
+        if viewbox is not None:
+            viewbox.label.setText("Text loaded.")
+
         return text_roi
 
     def save(self, file):

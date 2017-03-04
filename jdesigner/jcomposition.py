@@ -43,7 +43,7 @@ class Jcomposition(ROI, JRemoveItem):
         self._display_info_dock()
 
     def save(self, file):
-        bbox = self.get_bbox()
+        bbox = self.get_save_bbox()
         for obj, w in zip(self.objects, self.weight_of_control_points):
             if type(obj) is BezierCurve or type(obj) is JpolyLine:
                 points = compute_points(bbox, w)
@@ -74,6 +74,12 @@ class Jcomposition(ROI, JRemoveItem):
         handle0 = self.handles[0]["pos"]
         handle1 = self.handles[1]["pos"]
         return [[handle0.x(), handle0.y()], [handle1.x(), handle1.y()]]
+
+    def get_save_bbox(self):
+        bbox = self.get_bbox()
+        dx = self.pos().x()
+        dy = self.pos().y()
+        return [[x + dx, y + dy] for x, y in bbox]
 
     def shape(self):
         bbox = self.get_bbox()

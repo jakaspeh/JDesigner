@@ -50,12 +50,19 @@ class Jrectangle(RectROI, JChooseColor, JRemoveItem):
 
         return rectangle
 
-    def save(self, file):
+    def get_save_control_points(self):
+        return self.get_drawing_points()
+
+    def save(self, file, pos=None, size=None):
+
+        if pos is None and size is None:
+            pos = [self.pos().x(), self.pos().y()]
+            size = [self.size().x(), self.size().y()]
 
         data = {
             "color": self.color,
-            "pos": [self.pos().x(), self.pos().y()],
-            "size": [self.size().x(), self.size().y()]
+            "pos": pos,
+            "size": size
         }
 
         file.write("*JRectangle\n")

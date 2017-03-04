@@ -65,13 +65,16 @@ class BezierCurve(pg.ROI, JChooseColor, JArrowDock, JRemoveItem):
 
         return curve
 
-    def save(self, file):
-
-        data = {}
+    def get_save_control_points(self):
         points = self.get_control_points()
         dx = self.pos().x()
         dy = self.pos().y()
-        points = [[p[0] + dx, p[1] + dy] for p in points]
+        return [[p[0] + dx, p[1] + dy] for p in points]
+
+    def save(self, file, points=None):
+        data = {}
+        if points is None:
+            points = self.get_save_control_points()
         data["control points"] = points
         data["resolution"] = self.resolution
         data["color"] = self.color

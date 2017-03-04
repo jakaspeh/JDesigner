@@ -10,6 +10,10 @@ from .utils import delete_content
 
 from .remove_item import JRemoveItem
 
+from .bezier_curve import BezierCurve
+from .jpolyline import JpolyLine
+from .jrectangle import Jrectangle
+
 
 class Jcomposition(ROI, JRemoveItem):
 
@@ -31,25 +35,37 @@ class Jcomposition(ROI, JRemoveItem):
             self.addFreeHandle(corner)
 
         self.weights = None
+        self.weight_of_control_points = None
+        self.objects_control_points = None
         self.set_weights()
 
         JRemoveItem.__init__(self, viewbox)
         self._display_info_dock()
 
     def save(self, file):
-        # current version, just save it as individual object, not as
-        # a composition
-
-        for obj in self.objects:
-            obj.save(file)
+        bbox = self.get_bbox()
+        for obj, w in zip(self.objects, self.weight_of_control_points):
+            if type(obj) is BezierCurve or type(obj) is JpolyLine:
+                points = compute_points(bbox, w)
+                obj.save(file, points=points)
+            if type(obj) is Jrectangle:
+                points = compute_points(bbox, w)
+                pos = [points[0][0], points[0][1]]
+                high = [points[2][0], points[2][1]]
+                size = [high[0] - pos[0], high[1] - pos[1]]
+                obj.save(file, pos=pos, size=size)
 
     def set_weights(self):
         bbox = self.get_bbox()
         self.weights = []
+        self.weight_of_control_points = []
         for obj in self.objects:
             points = obj.get_drawing_points()
             weights_of_points = compute_weights(bbox, points)
             self.weights.append(weights_of_points)
+            control_points = obj.get_save_control_points()
+            weights_of_cp = compute_weights(bbox, control_points)
+            self.weight_of_control_points.append(weights_of_cp)
 
     def compute_bbox(self):
         return compute_bbox(self.objects)

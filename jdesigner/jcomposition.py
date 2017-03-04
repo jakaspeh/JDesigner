@@ -97,14 +97,33 @@ class Jcomposition(ROI, JRemoveItem):
     def boundingRect(self):
         return self.shape().boundingRect()
 
+    def get_drawing_points(self):
+        drawing_points = []
+        bbox = self.get_bbox()
+        for w in self.weights:
+            pts = compute_points(bbox, w)
+            drawing_points.append(pts)
+        return drawing_points
+
+    def get_export_drawing_points(self):
+        drawing_points = self.get_drawing_points()
+        dx = self.pos().x()
+        dy = self.pos().y()
+        export_drawing_points = []
+        for points in drawing_points:
+            export_points = [[x + dx, y + dy] for x, y in points]
+            export_drawing_points.append(export_points)
+        return export_drawing_points
+
     def paint(self, p, *args):
 
         p.setRenderHint(QtGui.QPainter.Antialiasing)
 
-        bbox = self.get_bbox()
-        for obj, w in zip(self.objects, self.weights):
+        drawing_points = self.get_drawing_points()
+        #bbox = self.get_bbox()
+        for pts, obj in zip(drawing_points, self.objects):
             p.setPen(obj.currentPen)
-            pts = compute_points(bbox, w)
+            #pts = compute_points(bbox, w)
             points = [QtCore.QPointF(pt[0], pt[1]) for pt in pts]
             for i in range(len(points) - 1):
                 p.drawLine(points[i], points[i + 1])

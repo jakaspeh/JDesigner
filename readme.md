@@ -1,3 +1,6 @@
+
+![JDesigner logo](figures/Jdesigner.png)
+
 JDesigner
 ---------
 

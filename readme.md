@@ -4,22 +4,22 @@
 The Jdesigner is an XKCD designer for mathematicians. 
 
 Examples
---------
+========
 
-Jdesigner was originally build for making 
+Jdesigner was originally build for making diagrams.
 
 
 Features
---------
+========
 
 Installation
-------------
+============
 
 * Install dependencies.
 * Run Jdesigner from a command line.
 
 Dependencies
-============
+------------
 
 * python (tested on python3.4)
 * pyqtgraph (tested on pyqtgraph 0.9.10)
@@ -27,7 +27,7 @@ Dependencies
 
 
 License
--------
+=======
 
 See the file [license.txt](license.txt). 
 

@@ -27,10 +27,8 @@ class JPlotting:
         set_of_bbox = []
         for obj in self.objects:
 
-            s = "get_export_drawing_points"
-            export_drawing_points_method = getattr(obj, s, None)
-            if callable(export_drawing_points_method):
-                drawing_points = obj.get_export_drawing_points()
+            if type(obj) is Jcomposition:
+                drawing_points = obj.get_drawing_points()
                 for points in drawing_points:
                     _add_bbox_to_set_of_bbox(set_of_bbox, points)
                 continue
@@ -62,7 +60,7 @@ class JPlotting:
         for obj in self.objects:
 
             if type(obj) is Jcomposition:
-                drawing_points = obj.get_export_drawing_points()
+                drawing_points = obj.get_drawing_points()
                 for points, o in zip(drawing_points, obj.objects):
                     color = o.color
                     self._plot(points, color)
@@ -74,8 +72,8 @@ class JPlotting:
                 points = obj.get_drawing_points()
                 self._plot(points, obj.color)
 
-        eps_x = width / 100
-        eps_y = height / 100
+        eps_x = 3 * width / 100
+        eps_y = 3 * height / 100
         plt.xlim([x0 - eps_x, x1 + eps_x])
         plt.ylim([y0 - eps_y, y1 + eps_y])
 

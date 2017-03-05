@@ -126,6 +126,9 @@ class Jcomposition(ROI, JRemoveItem):
             for i in range(len(points) - 1):
                 p.drawLine(points[i], points[i + 1])
 
+    def mouseClickEvent(self, ev):
+        self._display_info_dock()
+
     def _display_info_dock(self):
 
         if self.info_dock is None:

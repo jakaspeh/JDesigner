@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 
-from .utils import compute_bbox
 from .utils import compute_bbox_of_points
 from .jtext import JtextROI
 from .jtext import Jtext

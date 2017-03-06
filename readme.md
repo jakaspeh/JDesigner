@@ -1,16 +1,39 @@
 
 ![Jdesigner logo](figures/Jdesigner.png)
 
-The Jdesigner is an XKCD designer for mathematicians. 
+Jdesigner is an XKCD designer for mathematicians. 
 
 Examples
 ========
 
-Jdesigner was originally build for making diagrams.
+Here are two figures which were made with the help of Jdesigner. 
+
+Jdesigner was originally build for making diagrams:
+
+![A diagram](figures/diagram.png)
+
+But you can also create different figures:
+
+![A comic](figures/comic.png)
 
 
 Features
 ========
+
+You can interactivelly construct a figure and then export it to a file
+(typicaly to a png or a pdf file). You can also "XKCD"-fy your figure.
+
+You can save your current work to a .jdes file and then load this file
+later. See examples of *.jdes files in the folder [examples](examples/)
+
+You can build your figure with a set of primitives:
+* Bezier curves,
+* polylines,
+* squares,
+* and texts.
+
+The primitives can be combined together to a composition, see Load Composition
+option in the main menu. 
 
 Installation
 ============

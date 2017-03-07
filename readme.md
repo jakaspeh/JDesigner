@@ -8,11 +8,11 @@ Examples
 
 Here are two figures which were made with the help of Jdesigner. 
 
-Jdesigner was originally build for making diagrams:
+The first one is a simple diagram:
 
 ![A diagram](figures/diagram.png)
 
-But you can also create different figures:
+The second one is a comic in XKCD style:
 
 ![A comic](figures/comic.png)
 
@@ -20,20 +20,26 @@ But you can also create different figures:
 Features
 ========
 
-You can interactivelly construct a figure and then export it to a file
-(typicaly to a png or a pdf file). You can also "XKCD"-fy your figure.
+This is a screenshot of the Jdesigner:
 
-You can save your current work to a .jdes file and then load this file
-later. See examples of *.jdes files in the folder [examples](examples/)
+![Jdesigner screenshot](figures/jdesigner_window.png)
 
-You can build your figure with a set of primitives:
+You can create a figure from a set of primitives:
 * Bezier curves,
 * polylines,
 * squares,
 * and texts.
 
 The primitives can be combined together to a composition, see Load Composition
-option in the main menu. 
+option in the main menu.
+
+Jdesigner has it own file format; you can save your current work to a .jdes file
+and then load this file later. See examples of *.jdes files in the folder
+[examples](examples/)
+
+Once you construct a figure, you can export it to a .png or .pdf file. There are
+two export options. The first export is a "normal" export. The second export
+"XKCD-fies" a figure.
 
 Installation
 ============

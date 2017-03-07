@@ -39,7 +39,18 @@ and then load this file later. See examples of *.jdes files in the folder
 
 Once you construct a figure, you can export it to a .png or .pdf file. There are
 two export options. The first export is a "normal" export. The second export
-"XKCD-fies" a figure.
+"XKCD-fies" your figure.
+
+Jdesigner in action
+-------------------
+
+Designing a figure:
+
+![Screenshot of J with arrows](figures/working_example.png)
+
+And then exporting it in XKCD style:
+
+![J with arrows](figures/J_with_arrows.png)
 
 Installation
 ============

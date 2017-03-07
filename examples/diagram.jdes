@@ -1,0 +1,26 @@
+*JPolyline
+{'arrow start': 0.85, 'arrow': True, 'control points': [[0.45009430607177692, 0.95540010742212889], [0.44575542171114918, 0.65223971702046202]], 'color': 'red', 'arrow width': 0.5}
+*JPolyline
+{'arrow start': 0.8, 'arrow': True, 'control points': [[0.33945838489283697, 0.42988694771436164], [0.20604564626243346, 0.23627714544310086]], 'color': 'red', 'arrow width': 0.5}
+*JPolyline
+{'arrow start': 0.8, 'arrow': True, 'control points': [[0.57320250032487785, 0.42554855292043547], [0.64912930488560161, 0.24224084719296979]], 'color': 'red', 'arrow width': 0.5}
+*JText
+{'color': 'black', 'position': [0.25105981460967974, 1.0567312937938023], 'transpose': False, 'text': 'What should I eat?', 'size': 12}
+*JText
+{'color': 'black', 'position': [0.22703102325300117, 0.550826434137201], 'transpose': False, 'text': 'Do I have a chocolate?', 'size': 12}
+*JText
+{'color': 'black', 'position': [0.19302605578034157, 0.37565358582337327], 'transpose': False, 'text': 'Yes', 'size': 12}
+*JText
+{'color': 'black', 'position': [0.6220140926402123, 0.3761969866976923], 'transpose': False, 'text': 'No', 'size': 12}
+*JText
+{'color': 'black', 'position': [0.010268115294314178, 0.1576406800113035], 'transpose': False, 'text': 'Eat chocolate', 'size': 12}
+*JText
+{'color': 'black', 'position': [0.6155050317492184, 0.1641482722021933], 'transpose': False, 'text': 'Eat fruit', 'size': 12}
+*JRectangle
+{'pos': [0.22112257563310395, 0.9866100340760756], 'color': 'red', 'size': [0.4572852725342687, 0.11279826464208254]}
+*JRectangle
+{'pos': [0.18866769032364705, 0.48118704058366724], 'color': 'red', 'size': [0.5517745880832603, 0.1216412055199152]}
+*JRectangle
+{'pos': [-0.005055483165991692, 0.08664234127134895], 'color': 'red', 'size': [0.35266534361009816, 0.11271518899709265]}
+*JRectangle
+{'pos': [0.5936014605733348, 0.0910222738877704], 'color': 'red', 'size': [0.2643513176720359, 0.11263211335210233]}

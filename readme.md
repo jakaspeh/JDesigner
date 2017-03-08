@@ -1,7 +1,7 @@
 
 ![Jdesigner logo](figures/Jdesigner.png)
 
-Jdesigner is an XKCD designer for mathematicians. 
+XKCD designer for mathematicians. 
 
 Examples
 ========
@@ -20,7 +20,7 @@ The second one is a comic in XKCD style:
 Features
 ========
 
-This is a screenshot of the Jdesigner:
+Here is a screenshot of the Jdesigner:
 
 ![Jdesigner screenshot](figures/jdesigner_window.png)
 

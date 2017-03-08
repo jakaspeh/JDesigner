@@ -1,0 +1,12 @@
+Known bugs:
+
+* Exporting text does not work as one might expect. Sometimes there is a
+  difference between what is in the Jdesigner and in an exported figure.
+
+* Sometimes Jdesigner does not delete the old shape of an item when we move
+  the item around. This is because the shape method of the item is not
+  implemented properly.
+
+* Square does not forward clicks to items, which are inside the
+  square. Therefore, you can not select an item which is surrounded by a square.
+

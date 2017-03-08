@@ -64,7 +64,7 @@ Dependencies
 * python (tested on python3.4)
 * pyqtgraph (tested on pyqtgraph 0.9.10)
 * matplotlib (tested on matplotlib 1.3.1)
-* numpy (tested on 1.8.1)
+* numpy (tested on 1.8.2)
 
 Look at [requirements.txt](requirements.txt).
 
